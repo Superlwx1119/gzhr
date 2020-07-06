@@ -115,9 +115,13 @@ export function getType(params, myfuntion) {
     console.log(res)
     if (res.code === 0) {
       if (myfuntion) {
-        return myfuntion()
+        return myfuntion(res.data)
       } else {
-        this.$msgSuccess(res.message)
+        // this.$msgSuccess(res.message)
+        const dictionary = {}
+        dictionary[params] = res.data
+        this.$store.getters.dictionary.dictionary = dictionary
+        // this.$store.commit('setDictionary')
       }
     } else {
       this.$msgError(res.message)

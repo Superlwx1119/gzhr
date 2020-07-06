@@ -1,17 +1,18 @@
 
 const state = {
-  device: 'desktop'
+  dictionary: []
 }
 
 const mutations = {
-  SET_SIZE: (state, size) => {
-    state.size = size
+  SET_DICTIONARY: (state, dictionary) => {
+    state.dictionary = Object.assign(this.dictionary, dictionary)
   }
 }
 
 const actions = {
-  setSize({ commit }, size) {
-    commit('SET_SIZE', size)
+  setDictionary({ commit }, dictionary) {
+    console.log(dictionary)
+    commit('SET_DICTIONARY', dictionary)
   }
 }
 

@@ -41,8 +41,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state)
-    this.$getType('rb0150')
   },
   methods: {
     handleSelectChange(v) {

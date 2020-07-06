@@ -5,8 +5,8 @@
       <el-option
         v-for="item in options"
         :key="item.value"
-        :label="item.label"
-        :value="item.value"
+        :label="item.codeName"
+        :value="item.codeValue"
       /></el-select>
   </div>
 </template>
@@ -25,12 +25,7 @@ export default {
   data() {
     return {
       selectValue: '',
-      options: [
-        { label: '教育', value: '1' },
-        { label: '科研', value: '2' },
-        { label: '文化', value: '3' },
-        { label: '体育', value: '4' }
-      ]
+      options: []
     }
   },
   watch: {
@@ -40,6 +35,11 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    this.$getType('aab022', (res) => {
+      this.options = res
+    })
   },
   methods: {
     handleSelectChange(v) {
