@@ -234,11 +234,15 @@ export default {
     addFormData: {
       type: Object,
       default: function() { return {} }
+    },
+    detailInfo: {
+      type: Object,
+      default: function() { return {} }
     }
   },
   data() {
     return {
-      addForm: this.addFormData,
+      addForm: JSON.stringify(this.detailInfo) === '{}' ? this.addFormData : this.detailInfo,
       rules: {
         aab069: [
           { required: true, message: '请输入单位名称', trigger: 'blur' }
@@ -287,11 +291,13 @@ export default {
     addFormData: function(newValue) {
       this.addForm = newValue
       this.$emit('input', this.addForm)
+    },
+    detailInfo: function(newValue) {
+      this.addForm = newValue
+      this.$emit('input', this.addForm)
     }
   },
   methods: {
-    addperson() { // 新增申报
-    },
     handleSelectChange(v) {
       this.$emit('input', v)
     }

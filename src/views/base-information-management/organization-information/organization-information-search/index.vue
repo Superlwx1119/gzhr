@@ -20,11 +20,7 @@
             <Department v-model="queryForm.主管部门" />
           </template>
           <template slot="行业代码">
-            <el-cascader
-              v-model="queryForm.行业代码"
-              style="width: 100%;"
-              :options="options"
-            />
+            <Industry v-model="queryForm.行业代码" @input="handleSelectChange" />
           </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
@@ -63,9 +59,10 @@ import OrganizationType from '@/components/Select/OrganizationType'
 import OrganizationName from '@/components/Select/OrganizationName'
 import IfElseJoin from '@/components/Select/IfElseJoin'
 import Department from '@/components/Select/Department'
+import Industry from '@/components/Select/Industry'
 export default {
   name: 'OrganizationInformationSearch',
-  components: { FormItems, NormalLayer, DetailDialog, OrganizationLevel, OrganizationType, Department, OrganizationName, IfElseJoin },
+  components: { Industry, FormItems, NormalLayer, DetailDialog, OrganizationLevel, OrganizationType, Department, OrganizationName, IfElseJoin },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -336,7 +333,9 @@ export default {
         this.isShowDetail = true
       })
     },
-    calculate() { this.reportVisible = true }
+    handleSelectChange(v) {
+      this.$emit('input', v)
+    }
   }
 }
 </script>

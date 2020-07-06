@@ -9,17 +9,33 @@
   >
     <div class="box">
       <div class="box-body">
-        <AddInformation v-if="operation === 'add'" ref="addForm" v-loading="loading" :add-form-data="addForm" />
-        <el-tabs v-else type="border-card">
+        <el-tabs type="border-card">
           <el-tab-pane label="基本信息">
-            <AddInformation v-if="operation === 'edit'" ref="addForm" :add-form-data="addForm" :detail-info="detailInfo" />
-            <BaseInformation v-else :detail-info="detailInfo" />
+            <BaseInformation :detail-info="detailInfo" />
           </el-tab-pane>
-          <el-tab-pane v-if="operation === 'detail'" label="岗位设置信息">
-            <SettingInformation />
+          <el-tab-pane label="政治面貌">
+            <PoliticsStatus />
           </el-tab-pane>
-          <el-tab-pane label="内设机构">
-            <Organization :operation="operation" />
+          <el-tab-pane label="任职履历">
+            <ForRecord />
+          </el-tab-pane>
+          <el-tab-pane label="教育经历">
+            <Education />
+          </el-tab-pane>
+          <el-tab-pane label="家庭成员">
+            <Family />
+          </el-tab-pane>
+          <el-tab-pane label="年度考核">
+            <AnnualAppraisal />
+          </el-tab-pane>
+          <el-tab-pane label="奖励处分">
+            <RewardPunishment />
+          </el-tab-pane>
+          <el-tab-pane label="培训进修">
+            <Training />
+          </el-tab-pane>
+          <el-tab-pane label="聘用合同">
+            <EmploymentContract />
           </el-tab-pane>
         </el-tabs>
         <div class="box-header handle">
@@ -44,17 +60,26 @@
 </template>
 
 <script>
-import { addCorp, modifyCorp } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
-import AddInformation from './addInformation'
-import BaseInformation from './baseInformation'
-import SettingInformation from './settingInformation'
-import Organization from './organization'
+import BaseInformation from '../../component/base-information'
+import ForRecord from '../../component/for-record'
+import PoliticsStatus from '../../component/politics-status'
+import Education from '../../component/education'
+import AnnualAppraisal from '../../component/annual-appraisal'
+import EmploymentContract from '../../component/employment-contract'
+import Family from '../../component/family'
+import Training from '../../component/training'
+import RewardPunishment from '../../component/reward-punishment'
 export default {
   components: {
-    Organization,
+    PoliticsStatus,
     BaseInformation,
-    SettingInformation,
-    AddInformation
+    ForRecord,
+    Education,
+    AnnualAppraisal,
+    EmploymentContract,
+    Family,
+    Training,
+    RewardPunishment
   },
   model: {
     prop: 'isDialogVisible',
@@ -118,37 +143,6 @@ export default {
     },
     reset() {
       this.$refs.addForm.$refs.addForm.resetFields()
-    },
-    modifyCorp() { // 修改保存
-      this.$refs.addForm.$refs.addForm.validate((valid) => {
-        if (valid) {
-          this.detailInfo.aab021 = this.detailInfo.aab021[this.detailInfo.aab021.length - 1]
-          this.detailInfo.rb0174 = this.detailInfo.rb0174[this.detailInfo.rb0174.length - 1]
-          this.detailInfo.aab001 = this.detailInfo.aab001
-          this.loading = true
-          modifyCorp(this.detailInfo).then(res => {
-            this.loading = false
-            console.log(res)
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    addCorp() { // 新增申报
-      this.$refs.addForm.$refs.addForm.validate((valid) => {
-        if (valid) {
-          this.addForm.aab021 = this.addForm.aab021[this.addForm.aab021.length - 1]
-          this.addForm.rb0174 = this.addForm.rb0174[this.addForm.rb0174.length - 1]
-          addCorp(this.addForm).then(res => {
-            console.log(res)
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
     },
     isShow(v) {
       this.$emit('closeAll', false)

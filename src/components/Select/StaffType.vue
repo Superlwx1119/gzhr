@@ -1,12 +1,12 @@
 <template>
   <div>
-    <!-- 所属行业 -->
-    <el-select v-model="selectValue" filterable placeholder="请选择" @change="handleSelectChange">
+    <!-- 人员类别 -->
+    <el-select v-model="selectValue" placeholder="请选择" @change="handleSelectChange">
       <el-option
         v-for="item in options"
         :key="item.value"
-        :label="item.codeName"
-        :value="item.codeValue"
+        :label="item.label"
+        :value="item.value"
       /></el-select>
   </div>
 </template>
@@ -25,7 +25,11 @@ export default {
   data() {
     return {
       selectValue: '',
-      options: []
+      options: [
+        { label: '管理岗位', value: '1' },
+        { label: '专技岗位', value: '2' },
+        { label: '工勤岗位', value: '3' }
+      ]
     }
   },
   watch: {
@@ -37,16 +41,6 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.dictionary.dictionary['aab022']) {
-      this.options = this.$store.state.dictionary.dictionary['aab022']
-      return
-    }
-    this.$getType('aab022', (res) => {
-      this.options = res
-      const dictionary = {}
-      dictionary.aab022 = res
-      this.$store.dispatch('dictionary/setDictionary', dictionary)
-    })
   },
   methods: {
     handleSelectChange(v) {

@@ -114,14 +114,11 @@ export function getType(params, myfuntion) {
   getCodeByType({ codeType: params }).then(res => {
     console.log(res)
     if (res.code === 0) {
+      const dictionary = {}
+      dictionary[params] = res.data
+      this.$store.dispatch('dictionary/setDictionary', dictionary)
       if (myfuntion) {
         return myfuntion(res.data)
-      } else {
-        // this.$msgSuccess(res.message)
-        const dictionary = {}
-        dictionary[params] = res.data
-        this.$store.getters.dictionary.dictionary = dictionary
-        // this.$store.commit('setDictionary')
       }
     } else {
       this.$msgError(res.message)

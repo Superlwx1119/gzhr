@@ -1,12 +1,12 @@
 <template>
   <div>
-    <!-- 所属行业 -->
-    <el-select v-model="selectValue" filterable placeholder="请选择" @change="handleSelectChange">
+    <!-- 港澳台侨属 -->
+    <el-select v-model="selectValue" placeholder="请选择" @change="handleSelectChange">
       <el-option
         v-for="item in options"
         :key="item.value"
-        :label="item.codeName"
-        :value="item.codeValue"
+        :label="item.label"
+        :value="item.value"
       /></el-select>
   </div>
 </template>
@@ -25,7 +25,11 @@ export default {
   data() {
     return {
       selectValue: '',
-      options: []
+      options: [
+        { label: '港澳同胞', value: '1' },
+        { label: '台湾同胞', value: '2' },
+        { label: '海外侨胞', value: '3' }
+      ]
     }
   },
   watch: {
@@ -37,16 +41,6 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.dictionary.dictionary['aab022']) {
-      this.options = this.$store.state.dictionary.dictionary['aab022']
-      return
-    }
-    this.$getType('aab022', (res) => {
-      this.options = res
-      const dictionary = {}
-      dictionary.aab022 = res
-      this.$store.dispatch('dictionary/setDictionary', dictionary)
-    })
   },
   methods: {
     handleSelectChange(v) {
