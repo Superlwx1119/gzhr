@@ -1,0 +1,23 @@
+export const tableColumns = [
+  { label: '序号', type: 'index' },
+  //   { type: 'selection' },
+  { label: '顺序号', prop: '顺序号' },
+  { label: '结算申报业务号', prop: '结算申报业务号' },
+  { label: '行政区划', prop: '行政区划' },
+  { label: '医院编码', prop: '医院编码' },
+  { label: '医院名称', prop: '医院名称' },
+  { label: '社会保障号码', prop: '社会保障号码' },
+  { label: '证件类型', prop: '证件类型' },
+  { label: '证件号码', prop: '证件号码' },
+  { label: '姓名', prop: '姓名' },
+  { label: '业务交接号', prop: '业务交接号' },
+  { label: '结算业务号', prop: '结算业务号' },
+  { label: '入院日期', prop: '入院日期' },
+  { label: '出院日期', prop: '出院日期' },
+  { label: '结算日期', prop: '结算日期' },
+  { label: '住院天数', prop: '住院天数' },
+  { label: '入院疾病诊断名称', prop: '入院疾病诊断名称' },
+  { label: '医疗费总金额(元)', prop: '医疗费总金额(元)' },
+  { label: '医疗类别', prop: '医疗类别' },
+  { label: '险种', prop: '险种' }
+]

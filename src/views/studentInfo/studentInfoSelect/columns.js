@@ -1,0 +1,22 @@
+export default [
+  { type: 'selection' },
+  { type: 'index', label: '序号', width: '55px' },
+  { prop: 'nameCode', label: '单位编码', align: 'center' },
+  { prop: 'nameCode', label: '单位名称', align: 'center' },
+  { prop: 'code', label: '姓名', align: 'center' },
+  { prop: 'nameCode', label: '性别', align: 'center' },
+  { prop: 'nameCode', label: '身份证号', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '个人电脑号', align: 'center' },
+  { prop: 'code', label: '医保卡号', align: 'center' },
+  { prop: 'code', label: '参保状态', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '台账年月', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '款项年月', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '险种类型', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '缴费类型', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '缴费对象', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '是否为民政资助缴费台账', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '个人缴费金额', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '个人缴费到账标志', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '个人缴费到账日期', minWidth: '200px', align: 'center' },
+  { prop: 'code', label: '备注', minWidth: '200px', align: 'center' }
+]

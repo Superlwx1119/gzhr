@@ -1,0 +1,20 @@
+export default [
+  { type: 'index', label: '序号', width: '55px' },
+  { prop: 'name', label: '姓名' },
+  { prop: 'nameCode', label: '证件号码' },
+  { prop: 'code', label: '证照类型' },
+  { prop: 'code', label: '险种类型' },
+  { prop: 'nameCode', label: '对应费款所属期' },
+  { prop: 'nameCode', label: '工资（元）' },
+  { prop: 'nameCode', label: '人员缴费基数（元）' },
+  { prop: 'code', label: '个人缴费比例或定额标准' },
+  { prop: 'code', label: '个人实缴金额（元）' },
+  { prop: 'nameCode', label: '利息（元）' },
+  { prop: 'nameCode', label: '滞纳金（元）' },
+  { prop: 'nameCode', label: '上解时间' },
+  { prop: 'nameCode', label: '入国库时间' },
+  { prop: 'nameCode', label: '主管税务部门代码' },
+  { prop: 'code', label: '数据传输类型' },
+  { prop: 'code', label: '传输批次号' },
+  { prop: 'nameCode', label: '传输时间戳' }
+]
