@@ -1,7 +1,7 @@
 <template>
   <!--单位信息查询-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="3">
+    <normal-layer :search-number="6">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
