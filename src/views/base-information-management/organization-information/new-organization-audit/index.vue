@@ -1,7 +1,7 @@
 <template>
   <!--新增单位审核-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="3">
+    <normal-layer :search-number="8">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
@@ -18,6 +18,12 @@
           </template>
           <template slot="复刻标志">
             <RetroMark v-model="queryForm.复刻标志" />
+          </template>
+          <template slot="主管部门">
+            <OrganizationName v-model="queryForm.主管部门" />
+          </template>
+          <template slot="行业代码">
+            <Industry v-model="queryForm.行业代码" />
           </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
@@ -45,8 +51,9 @@
 </template>
 
 <script>
-import { queryCorpList } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import { queryCorpList } from '@/api/BaseInformation/OrganizationInformationManagement/AddOrganizationApply'
 import FormItems from '@/views/components/PageLayers/form-items'
+import Industry from '@/components/Select/Industry'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import DetailDialog from '@/views/components/DetailDialog/index'
 import OrganizationLevel from '@/components/Select/OrganizationLevel'
@@ -57,7 +64,7 @@ import RetroMark from '@/components/Select/RetroMark'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'NewOrganizationApply',
-  components: { FormItems, NormalLayer, DetailDialog, OrganizationLevel, OrganizationType, RetroMark, OrganizationName, IfElseJoin },
+  components: { Industry, FormItems, NormalLayer, DetailDialog, OrganizationLevel, OrganizationType, RetroMark, OrganizationName, IfElseJoin },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -72,6 +79,8 @@ export default {
         { label: '是否参公', prop: '是否参公', type: 'custom' },
         { label: '单位级别', prop: '单位级别', type: 'custom' },
         { label: '复刻标志', prop: '复刻标志', type: 'custom' },
+        { label: '主管部门', prop: '主管部门', type: 'custom' },
+        { label: '行业代码', prop: '行业代码', type: 'custom' },
         { label: '组织机构代码', prop: '组织机构代码', type: 'input' }
       ],
       options: [{

@@ -1,7 +1,7 @@
 <template>
-  <!--新增单位申报-->
+  <!--人员登记-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="3">
+    <normal-layer :search-number="7">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
@@ -33,9 +33,9 @@
         </FormItems>
       </template>
       <div slot="table-title" class="box-header handle">
-        <span class="box-title">新增单位申报列表</span>
+        <span class="box-title">新增人员登记列表</span>
         <div slot="title-btns" class="box-tools">
-          <el-button type="primary" @click="showDialog('add')">新增</el-button>
+          <el-button type="primary" @click="showDialog('add')">新增登记</el-button>
           <el-button type="primary">人员简历打印</el-button>
           <el-button type="primary">人员信息导出</el-button>
           <el-button type="primary">人员信息导出</el-button>
@@ -54,23 +54,27 @@
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <EditDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员进入登记" />
+    <!-- 编辑 -->
+    <EditDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员信息编辑" />
+    <!-- 新增登记 -->
+    <AddDialog v-model="isShowAdd" :detail-info="detailInfo" dialog-title="人员进入登记" />
   </div>
 </template>
 
 <script>
-import { queryCorpList, queryCorpDetail } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import { list, deletePerson } from '@/api/BaseInformation/PersonalInformationManagement/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import EditDialog from './dialog/edit'
+import AddDialog from './dialog/add'
 import OrganizationLevel from '@/components/Select/OrganizationLevel'
 import EnterType from '@/components/Select/EnterType'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
 import pageHandle from '@/mixins/pageHandle'
 export default {
-  name: 'NewOrganizationApply',
-  components: { FormItems, NormalLayer, EditDialog, OrganizationLevel, EnterType, OrganizationName, JobsLevel },
+  name: 'StaffRegistration',
+  components: { AddDialog, FormItems, NormalLayer, EditDialog, OrganizationLevel, EnterType, OrganizationName, JobsLevel },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -85,6 +89,7 @@ export default {
       detailInfo: {},
       loading: false,
       isShowDetail: false,
+      isShowAdd: false,
       reportVisible: false,
       operation: 'detail',
       itemsDatas: [
@@ -117,11 +122,7 @@ export default {
         { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
 
       ],
-      tableData: [1, 2, 3, 4, 5, 6, 7, 8].map(item => {
-        return {
-          a: '单位编码', b: '单位名称', c: '社会信用代码', d: '单位类型' + item, e: '岗位等级', f: '主管部门', g: '行业代码', h: '编制数', i: '法人代表', j: '奖励金发放比率', k: '联系人', l: '联系电话', m: '地址', n: '批准编制日期', o: '批准编制文号'
-        }
-      })
+      tableData: []
     }
   },
   computed: {},
@@ -133,17 +134,15 @@ export default {
   },
   methods: {
     showDialog(type, row) {
-      this.isShowDetail = true
+      if (type === 'add') {
+        this.isShowAdd = true
+      } else {
+        this.isShowDetail = true
+      }
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
-      this.$search(queryCorpList, form)
-    },
-    getDetail(id) {
-      queryCorpDetail({ id: id }).then(res => {
-        this.detailInfo = res.data
-        this.isShowDetail = true
-      })
+      this.$search(list, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination
@@ -155,7 +154,14 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$msgSuccess('删除成功')
+        deletePerson({ aac001: row.aac001 }).then(res => {
+          if (res.code === 0) {
+            this.$msgSuccess('删除成功')
+            this.search()
+          } else {
+            this.$msgError(res.message)
+          }
+        })
       }).catch(() => {
         this.$msgInfo('已取消删除')
       })
@@ -172,4 +178,5 @@ export default {
   /deep/ .el-table .el-table__body-wrapper{
     z-index: 0;
   }
+
 </style>

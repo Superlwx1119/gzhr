@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { queryCorpList } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import { queryCorpList } from '@/api/BaseInformation/OrganizationInformationManagement/AddOrganizationApply'
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import DetailDialog from '@/views/components/DetailDialog/index'

@@ -1,7 +1,7 @@
 <template>
   <!--新增单位申报-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="3">
+    <normal-layer :search-number="8">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
@@ -18,6 +18,12 @@
           </template>
           <template slot="复刻标志">
             <RetroMark v-model="queryForm.复刻标志" />
+          </template>
+          <template slot="主管部门">
+            <OrganizationName v-model="queryForm.主管部门" />
+          </template>
+          <template slot="行业代码">
+            <Industry v-model="queryForm.行业代码" />
           </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
@@ -49,8 +55,9 @@
 </template>
 
 <script>
-import { queryCorpList, queryCorpDetail } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import { queryCorpList, queryCorpDetail } from '@/api/BaseInformation/OrganizationInformationManagement/AddOrganizationApply'
 import FormItems from '@/views/components/PageLayers/form-items'
+import Industry from '@/components/Select/Industry'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import DetailDialog from '@/views/components/DetailDialog/index'
 import OrganizationLevel from '@/components/Select/OrganizationLevel'
@@ -61,7 +68,7 @@ import RetroMark from '@/components/Select/RetroMark'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'NewOrganizationApply',
-  components: { FormItems, NormalLayer, DetailDialog, OrganizationLevel, OrganizationType, RetroMark, OrganizationName, IfElseJoin },
+  components: { Industry, FormItems, NormalLayer, DetailDialog, OrganizationLevel, OrganizationType, RetroMark, OrganizationName, IfElseJoin },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -85,6 +92,8 @@ export default {
         { label: '是否参公', prop: '是否参公', type: 'custom' },
         { label: '单位级别', prop: '单位级别', type: 'custom' },
         { label: '复刻标志', prop: '复刻标志', type: 'custom' },
+        { label: '主管部门', prop: '主管部门', type: 'custom' },
+        { label: '行业代码', prop: '行业代码', type: 'custom' },
         { label: '组织机构代码', prop: '组织机构代码', type: 'input' }
       ],
       options: [{
@@ -304,11 +313,7 @@ export default {
         { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
 
       ],
-      tableData: [1, 2, 3, 4, 5, 6, 7, 8].map(item => {
-        return {
-          a: '单位编码', b: '单位名称', c: '社会信用代码', d: '单位类型' + item, e: '是否参公', f: '主管部门', g: '行业代码', h: '编制数', i: '法人代表', j: '奖励金发放比率', k: '联系人', l: '联系电话', m: '地址', n: '批准编制日期', o: '批准编制文号', p: '法人单位编码', r: '单位主要工作职责'
-        }
-      })
+      tableData: []
     }
   },
   computed: {},

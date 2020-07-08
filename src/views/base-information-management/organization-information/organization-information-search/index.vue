@@ -1,7 +1,7 @@
 <template>
   <!--单位信息查询-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="3">
+    <normal-layer :search-number="7">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { queryCorpList, queryCorpDetail } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import { queryCorpList, queryCorpDetail } from '@/api/BaseInformation/OrganizationInformationManagement/AddOrganizationApply'
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import DetailDialog from '@/views/components/DetailDialog/index'

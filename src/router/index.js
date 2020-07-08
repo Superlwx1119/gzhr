@@ -8,20 +8,20 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import BaseInformationManagement from './modules/BaseInformationManagement/index' //  基础信息管理
-import DirectoryBusinessAttributeInfo from './modules/DirectoryBusinessAttributeInfo/index' //  个人待遇管理
-import PolicyParamManage from './modules/PolicyParamManage' //  政策参数管理
-import FundCollectsManage from './modules/FundCollectsManage' //  基金征集管理
-import HealthManage from './modules/HealthManage/index' //  体检管理
-import OverallQuery from './modules/OverallQuery/index' //  综合查询
-import BankCollection from './modules/BankCollection/index' // 银行托收
-import SutdentInfo from './modules/StudentInfo/index' // 大中专院校信息管理=
-import InsuranceRelationshipTransfer from './modules/InsuranceRelationshipTransfer/index' // 医保关系转移接续=
-import FinancialManage from './modules/FinancialManage/index' // 财务管理 // 异地就医=
-import PaymentInAdvance from './modules/PaymentInAdvance' // 预缴管理
-import OffsiteTreatment from './modules/OffsiteTreatment' // 财务管理
-import PayableComputingManagement from './modules/PayableComputingManagement/index' // 应缴计算管理
-import ResidentsPayManage from './modules/ResidentsPayManage/index' // 城乡居民缴费管理
-import PersonalAccountManagement from './modules/PersonalAccountManagement' // 个人账户管理
+// import DirectoryBusinessAttributeInfo from './modules/DirectoryBusinessAttributeInfo/index' //  个人待遇管理
+// import PolicyParamManage from './modules/PolicyParamManage' //  政策参数管理
+// import FundCollectsManage from './modules/FundCollectsManage' //  基金征集管理
+// import HealthManage from './modules/HealthManage/index' //  体检管理
+// import OverallQuery from './modules/OverallQuery/index' //  综合查询
+// import BankCollection from './modules/BankCollection/index' // 银行托收
+// import SutdentInfo from './modules/StudentInfo/index' // 大中专院校信息管理=
+// import InsuranceRelationshipTransfer from './modules/InsuranceRelationshipTransfer/index' // 医保关系转移接续=
+// import FinancialManage from './modules/FinancialManage/index' // 财务管理 // 异地就医=
+// import PaymentInAdvance from './modules/PaymentInAdvance' // 预缴管理
+// import OffsiteTreatment from './modules/OffsiteTreatment' // 财务管理
+// import PayableComputingManagement from './modules/PayableComputingManagement/index' // 应缴计算管理
+// import ResidentsPayManage from './modules/ResidentsPayManage/index' // 城乡居民缴费管理
+// import PersonalAccountManagement from './modules/PersonalAccountManagement' // 个人账户管理
 
 // import componentsRouter from './modules/components'
 // import chartsRouter from './modules/charts'
@@ -88,21 +88,21 @@ export const constantRoutes = [
       }
     ]
   },
-  BaseInformationManagement,
-  DirectoryBusinessAttributeInfo,
-  PolicyParamManage,
-  FundCollectsManage,
-  PayableComputingManagement,
-  HealthManage,
-  OverallQuery,
-  BankCollection,
-  SutdentInfo,
-  InsuranceRelationshipTransfer,
-  FinancialManage,
-  OffsiteTreatment,
-  PaymentInAdvance,
-  ResidentsPayManage,
-  PersonalAccountManagement
+  BaseInformationManagement
+  // DirectoryBusinessAttributeInfo,
+  // PolicyParamManage,
+  // FundCollectsManage,
+  // PayableComputingManagement,
+  // HealthManage,
+  // OverallQuery,
+  // BankCollection,
+  // SutdentInfo,
+  // InsuranceRelationshipTransfer,
+  // FinancialManage,
+  // OffsiteTreatment,
+  // PaymentInAdvance,
+  // ResidentsPayManage,
+  // PersonalAccountManagement
 ]
 /**
  * asyncRoutes

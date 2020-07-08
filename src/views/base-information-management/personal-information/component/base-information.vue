@@ -1,4 +1,5 @@
 <template>
+  <!-- 基础信息 -->
   <div class="box">
     <div class="box-body">
       <el-form ref="addForm" :model="addForm" :rules="rules" label-width="105px">

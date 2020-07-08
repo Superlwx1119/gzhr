@@ -72,11 +72,7 @@ export default {
         { label: '操作', type: 'operation' }
 
       ],
-      tableData: [1, 2, 3, 4, 5, 6, 7, 8].map(item => {
-        return {
-          a: 'xxx', b: '男', c: '居民身份证', d: '431227xxxxxxxx271' + item, e: '896.93', f: '896.93', g: '3903.07', h: '1951.54', i: '4800.00', j: '0.5', k: 'xxx'
-        }
-      })
+      tableData: []
     }
   },
   computed: {},

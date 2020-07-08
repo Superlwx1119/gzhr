@@ -69,7 +69,7 @@ export default {
       rules: {},
       loading: false,
       columns: [
-        { type: 'selection' },
+        // { type: 'selection' },
         { type: 'index', label: '序号' },
         { label: '政治面貌', prop: 'aab001' },
         { label: '参加时间', prop: 'aab069' },
