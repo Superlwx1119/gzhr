@@ -2,7 +2,6 @@
   <!--新增单位申报-->
   <div class="specialPersonBonusVerification">
     <normal-layer :search-number="8">
-      >>>>>>> 1d4dba086701c361f73d5d30b63565628357da29
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
