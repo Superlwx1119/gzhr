@@ -1,12 +1,12 @@
 import request from '@/utils/request'
-
+import api from './Api.js'
 /**
  * 新增单位信息
  * @param query
  */
 export function addCorp(query) {
   return request({
-    url: '/corp/addCorp',
+    url: api.addCorp,
     method: 'post',
     data: query
   })
@@ -18,7 +18,7 @@ export function addCorp(query) {
  */
 export function modifyCorp(query) {
   return request({
-    url: '/corp/modifyCorp',
+    url: api.modifyCorp,
     method: 'post',
     data: query
   })
@@ -30,7 +30,7 @@ export function modifyCorp(query) {
  */
 export function queryCorpList(query) {
   return request({
-    url: '/corp/queryCorpList',
+    url: api.queryCorpList,
     method: 'get',
     params: query
   })
@@ -42,7 +42,7 @@ export function queryCorpList(query) {
  */
 export function queryCorpDetail(query) {
   return request({
-    url: '/corp/queryCorpDetail',
+    url: api.queryCorpDetail,
     method: 'get',
     params: query
   })
