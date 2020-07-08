@@ -25,27 +25,30 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation" slot-scope="scope">
-            <el-button type="text" @click="isShowEdit">修改</el-button>
-            <el-button type="text" @click="showDialog('detail',scope.row)">基本信息</el-button>
+          <template slot="operation" slot-scope="{row}">
+            <el-button type="text" @click="isShowTheDetail = true">基本信息</el-button>
+            <el-button type="text" @click="isShowEdit = true">修改</el-button>
+            <el-button type="text" @click="isShowDetail = true">查看</el-button>
             <el-button type="text">申报</el-button>
-            <el-button type="text" class="delete">删除</el-button>
+            <el-button type="text" class="delete" @click="deleteRow(row)">删除</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
     <!-- 新增 -->
-    <AddDialog v-model="isShowAdd" :detail-info="detailInfo" dialog-title="新增退休登记" />
+    <AddDialog v-model="isShowAdd" :detail-info="detailInfo" dialog-title="选择需要退休人员" />
     <!-- 修改 -->
     <EditDialog v-model="isShowEdit" :detail-info="detailInfo" dialog-title="人员退休登记" />
-    <!-- 查看明细 -->
-    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" dialog-title="人员进入登记" />
+    <!-- 查看 -->
+    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" dialog-title="人员退休登记" />
+    <!-- 明细 -->
+    <TheDetail v-model="isShowTheDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员进入登记" />
   </div>
 </template>
 
 <script>
-import { list, deletePerson } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
@@ -54,9 +57,10 @@ import pageHandle from '@/mixins/pageHandle'
 import EditDialog from './dialog/edit'
 import AddDialog from './dialog/add'
 import DetailDialog from './dialog/detail'
+import TheDetail from '../component/index'
 export default {
   name: 'DismissManagement',
-  components: { FormItems, NormalLayer, OrganizationName, JobsLevel, EditDialog, AddDialog, DetailDialog },
+  components: { TheDetail, FormItems, NormalLayer, OrganizationName, JobsLevel, EditDialog, AddDialog, DetailDialog },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -73,6 +77,7 @@ export default {
       isShowDetail: false,
       isShowAdd: false,
       isShowEdit: false,
+      isShowTheDetail: false,
       reportVisible: false,
       operation: 'detail',
       itemsDatas: [
@@ -98,7 +103,7 @@ export default {
         { label: '离退前职务', prop: 'k' },
         { label: '离退批准准文号', prop: 'k' },
         { label: '离退批准单位', prop: 'k' },
-        { label: '操作', type: 'operation', fixed: 'right', width: '220px' }
+        { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
       ],
       tableData: [1]
     }
@@ -132,14 +137,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deletePerson({ aac001: row.aac001 }).then(res => {
-          if (res.code === 0) {
-            this.$msgSuccess('删除成功')
-            this.search()
-          } else {
-            this.$msgError(res.message)
-          }
-        })
+        this.$msgSuccess('删除成功')
       }).catch(() => {
         this.$msgInfo('已取消删除')
       })

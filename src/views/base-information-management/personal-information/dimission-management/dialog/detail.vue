@@ -9,67 +9,65 @@
   >
     <div class="box">
       <div class="box-body">
-        <el-tabs type="border-card">
-          <el-tab-pane label="基本信息">
-            <BaseInformation :detail-info="detailInfo" />
-          </el-tab-pane>
-          <el-tab-pane label="政治面貌">
-            <PoliticsStatus />
-          </el-tab-pane>
-          <el-tab-pane label="任职履历">
-            <ForRecord />
-          </el-tab-pane>
-          <el-tab-pane label="教育经历">
-            <Education />
-          </el-tab-pane>
-          <el-tab-pane label="年度考核">
-            <AnnualAppraisal />
-          </el-tab-pane>
-          <el-tab-pane label="奖励处分">
-            <RewardPunishment />
-          </el-tab-pane>
-          <el-tab-pane label="家庭成员">
-            <Family />
-          </el-tab-pane>
-          <el-tab-pane label="培训进修">
-            <Training />
-          </el-tab-pane>
-          <el-tab-pane label="聘用合同">
-            <EmploymentContract />
-          </el-tab-pane>
-        </el-tabs>
-
+        <table class="table-data total-info">
+          <tbody>
+            <tr>
+              <td>姓名</td>
+              <td>姓名</td>
+              <td>证件号码</td>
+              <td>证件号码</td>
+              <td>性别</td>
+              <td>性别</td>
+            </tr>
+            <tr>
+              <td>出生日期</td>
+              <td>出生日期</td>
+              <td>单位名称</td>
+              <td>单位名称</td>
+              <td>参加工作时间</td>
+              <td>参加工作时间</td>
+            </tr>
+            <tr>
+              <td>退休时人员类别</td>
+              <td>退休时人员类别</td>
+              <td>退休时级别</td>
+              <td>退休时级别</td>
+              <td>退休时任职务</td>
+              <td>退休时任职务</td>
+            </tr>
+            <tr>
+              <td>退休后管理单位</td>
+              <td>退休后管理单位</td>
+              <td>退休日期</td>
+              <td>退休日期</td>
+              <td>退休时年龄</td>
+              <td>退休时年龄</td>
+            </tr>
+            <tr>
+              <td>退休批准文号</td>
+              <td>退休批准文号</td>
+              <td>退休批准单位</td>
+              <td colspan="3">退休批准单位</td>
+            </tr>
+            <tr rowspan="2">
+              <td>备注</td>
+              <td colspan="5">备注</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary">保存</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </span>
   </form-dialog>
 </template>
 
 <script>
-import BaseInformation from '../../component/base-information'
-import ForRecord from '../../component/for-record'
-import PoliticsStatus from '../../component/politics-status'
-import Education from '../../component/education'
-import AnnualAppraisal from '../../component/annual-appraisal'
-import EmploymentContract from '../../component/employment-contract'
-import Family from '../../component/family'
-import Training from '../../component/training'
-import RewardPunishment from '../../component/reward-punishment'
+
 export default {
   components: {
-    PoliticsStatus,
-    BaseInformation,
-    ForRecord,
-    Education,
-    AnnualAppraisal,
-    EmploymentContract,
-    Family,
-    Training,
-    RewardPunishment
   },
   model: {
     prop: 'isDialogVisible',
@@ -97,19 +95,13 @@ export default {
     return {
       addForm: {},
       activeName: '1',
-      queryForm: {},
       isShowAdd: false,
       loading: false
-
     }
   },
   methods: {
     closeDialog() {
       this.$emit('closeAll', false)
-      this.reset()
-    },
-    reset() {
-      this.$refs.addForm.$refs.addForm.resetFields()
     },
     isShow(v) {
       this.$emit('closeAll', false)
