@@ -1,12 +1,12 @@
 <template>
-  <div class="employmentContract">
-    <router-view />
+  <div class="disposePenaltyManagement">
+    处分期满管理
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PersonelManagement',
+  name: 'DisposePenaltyManagement',
   components: {},
   mixins: [],
   props: {},
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .employmentContract{
+  .disposePenaltyManagement{
     >div {
       height: 100%;
     }
