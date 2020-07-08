@@ -1,19 +1,19 @@
 import request from '@/utils/request'
-
+import api from './API'
 /**
  * 新增人员信息
  * @param query
  */
 export function addPerson(query) {
   return request({
-    url: '/person',
+    url: api.addPerson,
     method: 'post',
     data: query
   })
 }
 
 /**
- * 修改单位信息
+ * 修改人员信息
  * @param query
  */
 export function modifyCorp(query) {
@@ -25,12 +25,12 @@ export function modifyCorp(query) {
 }
 
 /**
- * 查询人员信息
+ * 查询人员列表
  * @param query
  */
 export function list(query) {
   return request({
-    url: '/person/list',
+    url: api.list,
     method: 'get',
     params: query
   })
@@ -42,7 +42,7 @@ export function list(query) {
  */
 export function deletePerson(query) {
   return request({
-    url: '/person',
+    url: api.deletePerson,
     method: 'delete',
     params: query
   })
