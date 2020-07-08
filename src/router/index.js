@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import BaseInformationManagement from './modules/BaseInformationManagement/index' //  基础信息管理
+import PersonnelManagement from './modules/PersonnelManagement/index' //  人事管理
 // import DirectoryBusinessAttributeInfo from './modules/DirectoryBusinessAttributeInfo/index' //  个人待遇管理
 // import PolicyParamManage from './modules/PolicyParamManage' //  政策参数管理
 // import FundCollectsManage from './modules/FundCollectsManage' //  基金征集管理
@@ -88,7 +89,9 @@ export const constantRoutes = [
       }
     ]
   },
-  BaseInformationManagement
+  BaseInformationManagement,
+  PersonnelManagement
+
   // DirectoryBusinessAttributeInfo,
   // PolicyParamManage,
   // FundCollectsManage,
