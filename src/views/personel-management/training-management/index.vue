@@ -1,14 +1,14 @@
 <template>
-  <!--退出审核-->
+  <!--培训管理-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="6">
+    <normal-layer :search-number="7">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
             <OrganizationName v-model="queryForm.单位" />
           </template>
-          <template slot="退休前级别">
-            <JobsLevel v-model="queryForm.退休前级别" />
+          <template slot="岗位等级">
+            <JobsLevel v-model="queryForm.岗位等级" />
           </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
@@ -17,33 +17,31 @@
         </FormItems>
       </template>
       <div slot="table-title" class="box-header handle">
-        <span class="box-title">退出审核列表</span>
-        <div slot="title-btns" class="box-tools">
+        <span class="box-title">培训管理列表</span>
+        <!-- <div slot="title-btns" class="box-tools">
           <el-button type="primary" @click="isShowAdd = true">新增</el-button>
           <el-button type="primary">数据导入</el-button>
-        </div>
+        </div> -->
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation" slot-scope="{row}">
-            <el-button type="text" @click="isShowTheDetail = true">基本信息</el-button>
-            <el-button type="text" @click="isShowEdit = true">修改</el-button>
+          <template slot="姓名" slot-scope="{row}">
+            <el-button type="text" @click="getDetail(row)">{{ row.aab019 }}</el-button>
+          </template>
+          <template slot="身份证号码" slot-scope="{row}">
+            <el-button type="text" @click="getDetail(row)">{{ row.aab022 }}</el-button>
+          </template>
+          <template slot="operation">
             <el-button type="text" @click="isShowDetail = true">查看</el-button>
-            <el-button type="text">申报</el-button>
-            <el-button type="text" class="delete" @click="deleteRow(row)">删除</el-button>
+            <el-button type="text" @click="isShowTheDetail = true">审核通过</el-button>
+            <el-button type="text" class="delete" @click="isShowEdit = true">审核不通过</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <!-- 新增 -->
-    <AddDialog v-model="isShowAdd" :detail-info="detailInfo" dialog-title="选择需要退出人员" />
-    <!-- 修改 -->
-    <EditDialog v-model="isShowEdit" :detail-info="detailInfo" dialog-title="人员退出登记" />
-    <!-- 查看 -->
-    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" dialog-title="人员退出登记" />
-    <!-- 明细 -->
-    <TheDetail v-model="isShowTheDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员进入登记" />
+    <!-- 人员信息 -->
+    <PersonalDetail v-model="isShowDetail" :detail-info="detailInfo" :dialog-title="`查看《${detailName}的个人档案》信息`" />
   </div>
 </template>
 
@@ -53,14 +51,11 @@ import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
+import PersonalDetail from '@/views/components/personalDetail/index'
 import pageHandle from '@/mixins/pageHandle'
-import EditDialog from '../dimission-management/dialog/edit'
-import AddDialog from '../dimission-management/dialog/add'
-import DetailDialog from '../dimission-management/dialog/detail'
-import TheDetail from '../component/index'
 export default {
-  name: 'ExitManagement',
-  components: { TheDetail, FormItems, NormalLayer, OrganizationName, JobsLevel, EditDialog, AddDialog, DetailDialog },
+  name: 'TrainingManagement',
+  components: { FormItems, NormalLayer, OrganizationName, JobsLevel, PersonalDetail },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -72,6 +67,7 @@ export default {
         startRow: 1,
         endRow: 10
       },
+      detailName: '',
       detailInfo: {},
       loading: false,
       isShowDetail: false,
@@ -84,28 +80,30 @@ export default {
         // { label: '年度', prop: '年度1', type: 'dateYear' },
         { label: '单位', prop: '单位', type: 'custom' },
         { label: '姓名', prop: '姓名', type: 'input' },
-        { label: '性别', prop: '性别', type: 'select', options: [{ label: '男', value: '1' }, { label: '女', value: '2' }, { label: '未说明', value: '3' }] },
+        { label: '岗位等级', prop: '岗位等级', type: 'custom' },
         { label: '身份证号', prop: '身份证号', type: 'input' },
-        { label: '退休前级别', prop: '退休前级别', type: 'custom' },
-        { label: '退休时间', prop: '退休时间', type: 'dateRange' }
+        { label: '退休时间', prop: '退休时间', type: 'dateRange' },
+        { label: '年龄范围', prop: '年龄范围', type: 'select', options: [{ label: '30岁以下', value: '1' }, { label: '30~45岁', value: '2' }, { label: '45岁以上', value: '3' }] },
+        { label: '参加工作时间', prop: '参加工作时间', type: 'dateRange' }
+
       ],
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '姓名', prop: 'aab069' },
-        { label: '身份证号码', prop: 'c' },
-        { label: '单位名称', prop: 'aab019' },
+        { label: '单位', prop: 'aab069' },
+        { label: '主管单位', prop: 'c' },
+        { label: '姓名', prop: 'aab019', type: 'custom', slotName: '姓名' },
         { label: '性别', prop: 'rb0195' },
-        { label: '人员类别', prop: 'aab022' },
-        { label: '离退类别', prop: 'aab023' },
-        { label: '离退日期', prop: 'rb0705' },
-        { label: '离退前级别', prop: 'i' },
-        { label: '离退前职务', prop: 'k' },
-        { label: '离退批准准文号', prop: 'k' },
-        { label: '离退批准单位', prop: 'k' },
-        { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
+        { label: '身份证号码', prop: 'aab022', type: 'custom', slotName: '身份证号码' },
+        { label: '出生日期', prop: 'aab023' },
+        { label: '参加工作日期', prop: 'rb0705' },
+        { label: '最高学历', prop: 'i' },
+        { label: '岗位类别', prop: 'k' },
+        { label: '培训次数', prop: 'k' },
+        { label: '培训总时长(时)', prop: 'k' }
+        // { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
       ],
-      tableData: [1]
+      tableData: [{ aab019: '张三', aab022: '12312312313' }]
     }
   },
   computed: {},
@@ -122,6 +120,10 @@ export default {
       } else {
         this.isShowDetail = true
       }
+    },
+    getDetail(row) {
+      this.detailName = row.aab019
+      this.isShowDetail = true
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })

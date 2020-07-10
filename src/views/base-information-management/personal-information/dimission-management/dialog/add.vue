@@ -7,69 +7,39 @@
     width="1200px"
     @update:isShow="isShow"
   >
-    <div class="box">
-      <div class="box-body">
-        <el-tabs type="border-card">
-          <el-tab-pane label="基本信息">
-            <BaseInformation :detail-info="detailInfo" />
-          </el-tab-pane>
-          <el-tab-pane label="政治面貌">
-            <PoliticsStatus />
-          </el-tab-pane>
-          <el-tab-pane label="任职履历">
-            <ForRecord />
-          </el-tab-pane>
-          <el-tab-pane label="教育经历">
-            <Education />
-          </el-tab-pane>
-          <el-tab-pane label="年度考核">
-            <AnnualAppraisal />
-          </el-tab-pane>
-          <el-tab-pane label="奖励处分">
-            <RewardPunishment />
-          </el-tab-pane>
-          <el-tab-pane label="家庭成员">
-            <Family />
-          </el-tab-pane>
-          <el-tab-pane label="培训进修">
-            <Training />
-          </el-tab-pane>
-          <el-tab-pane label="聘用合同">
-            <EmploymentContract />
-          </el-tab-pane>
-        </el-tabs>
-
-      </div>
-    </div>
+    <el-form ref="queryForm" :model="queryForm" label-width="105px" style="margin-bottom:10px">
+      <el-row :gutter="12">
+        <el-col :md="12" :lg="8" :xl="6">
+          <el-form-item label="姓名" prop="姓名">
+            <el-input v-model="queryForm.姓名" />
+          </el-form-item>
+        </el-col>
+        <el-col :md="12" :lg="8" :xl="6">
+          <el-button type="primary">查询</el-button>
+        </el-col>
+      </el-row>
+    </el-form>
+    <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
+      <template slot="operation" slot-scope="{row}">
+        <el-button type="text" @click="showAdd(row)">下一步</el-button>
+      </template>
+    </my-table-view>
+    <Pagination :data="pageInfo" @refresh="pageChange" />
 
     <span slot="footer" class="dialog-footer">
       <el-button type="primary">保存</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </span>
+    <!-- 下一步新增 -->
+    <AddForm v-model="isShowAdd" :detail-info="detailInfo" dialog-title="人员退休登记" />
   </form-dialog>
 </template>
 
 <script>
-import BaseInformation from '../../component/base-information'
-import ForRecord from '../../component/for-record'
-import PoliticsStatus from '../../component/politics-status'
-import Education from '../../component/education'
-import AnnualAppraisal from '../../component/annual-appraisal'
-import EmploymentContract from '../../component/employment-contract'
-import Family from '../../component/family'
-import Training from '../../component/training'
-import RewardPunishment from '../../component/reward-punishment'
+import AddForm from './edit'
 export default {
   components: {
-    PoliticsStatus,
-    BaseInformation,
-    ForRecord,
-    Education,
-    AnnualAppraisal,
-    EmploymentContract,
-    Family,
-    Training,
-    RewardPunishment
+    AddForm
   },
   model: {
     prop: 'isDialogVisible',
@@ -95,12 +65,35 @@ export default {
   },
   data() {
     return {
-      addForm: {},
-      activeName: '1',
       queryForm: {},
+      activeName: '1',
       isShowAdd: false,
-      loading: false
-
+      loading: false,
+      pageInfo: {
+        pageNum: 1,
+        pageSize: 15,
+        total: 10,
+        startRow: 1,
+        endRow: 10
+      },
+      columns: [
+        { type: 'selection' },
+        { type: 'index', label: '序号' },
+        { label: '人员姓名', prop: 'aab069' },
+        { label: '身份证号码', prop: 'c' },
+        { label: '性别', prop: 'rb0195' },
+        { label: '出生日期', prop: 'aab022' },
+        { label: '年龄(周岁)', prop: 'aab023' },
+        { label: '现状态', prop: 'rb0705' },
+        { label: '参加工作时间', prop: 'i' },
+        { label: '进入本单位时间', prop: 'k' },
+        { label: '人员类别', prop: 'k' },
+        { label: '岗位等级', prop: 'k' },
+        { label: '学历', prop: 'k' },
+        { label: '学位', prop: 'k' },
+        { label: '操作', type: 'operation', fixed: 'right', width: '120px' }
+      ],
+      tableData: [1, 2, 3, 4, 5, 6, 7, 7]
     }
   },
   methods: {
@@ -109,7 +102,14 @@ export default {
       this.reset()
     },
     reset() {
-      this.$refs.addForm.$refs.addForm.resetFields()
+      this.$refs.queryForm.resetFields()
+    },
+    showAdd(row) {
+      this.isShowAdd = true
+    },
+    pageChange(data) {
+      this.pageInfo = data.pagination
+      this.search()
     },
     isShow(v) {
       this.$emit('closeAll', false)
@@ -119,5 +119,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+  /deep/ .el-table .el-table__body-wrapper{
+    z-index: 0;
+  }
 </style>

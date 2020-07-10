@@ -109,7 +109,7 @@ export default {
         { label: '审核状态', prop: 'aab069' },
         { label: '单位名称', prop: 'c' },
         { label: '姓名', prop: 'aab019' },
-        { label: '姓名', prop: 'rb0195' },
+        { label: '性别', prop: 'rb0195' },
         { label: '身份证号码', prop: 'aab023' },
         { label: '人员类型', prop: 'aab022' },
         { label: '岗位等级', prop: 'rb0705' },
