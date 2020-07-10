@@ -28,15 +28,18 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
+          <template slot="单位名称" slot-scope="{row}">
+            <el-button type="text" @click="getDetail(row)">{{ row.单位名称 }}</el-button>
+          </template>
           <template slot="operation">
-            <el-button type="text">查看</el-button>
+            <el-button type="text">追踪</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <!-- 人员信息 -->
-    <PersonalDetail v-model="isShowDetail" :detail-info="detailInfo" :dialog-title="`查看《${detailName}的个人档案》信息`" />
+    <!-- 单位信息 -->
+    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="单位信息查看" />
   </div>
 </template>
 
@@ -45,13 +48,13 @@ import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import SearchStatus from '@/components/Select/SearchStatus'
+import DetailDialog from '@/views/components/DetailDialog/index'
 import Department from '@/components/Select/Department'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
-import PersonalDetail from '@/views/components/personalDetail/index'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'ForTheRecord',
-  components: { FormItems, NormalLayer, OrganizationName, PersonalDetail, SearchStatus, Department },
+  components: { FormItems, NormalLayer, OrganizationName, DetailDialog, SearchStatus, Department },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -82,6 +85,7 @@ export default {
         { type: 'selection' },
         { type: 'index', label: '序号' },
         { label: '审核状态', prop: 'aab069' },
+        { label: '单位名称', prop: '单位名称', type: 'custom', slotName: '单位名称' },
         { label: '主管单位名称', prop: 'c' },
         { label: '考核年度', prop: 'aab019' },
         { label: '应参加考核人数', prop: 'rb0195' },
@@ -94,7 +98,7 @@ export default {
         { label: '编制数', prop: 'k' },
         { label: '操作', type: 'operation', fixed: 'right', width: '120px' }
       ],
-      tableData: [{ aab019: '张三', aab022: '12312312313' }]
+      tableData: [{ aab019: '张三', aab022: '12312312313', 单位名称: '单位名称' }]
     }
   },
   computed: {},

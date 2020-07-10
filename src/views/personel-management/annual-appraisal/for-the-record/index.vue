@@ -22,15 +22,15 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation">
-            <el-button type="text">查看</el-button>
+          <template slot="operation" slot-scope="{row}">
+            <el-button type="text" @click="getDetail(row)">查看</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
     <!-- 人员信息 -->
-    <PersonalDetail v-model="isShowDetail" :detail-info="detailInfo" :dialog-title="`查看《${detailName}的个人档案》信息`" />
+    <reportDetailIndex v-model="isShowDetail" :detail-info="detailInfo" />
   </div>
 </template>
 
@@ -39,11 +39,11 @@ import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
-import PersonalDetail from '@/views/components/personalDetail/index'
+import reportDetailIndex from '../component/reportDetailIndex'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'ForTheRecord',
-  components: { FormItems, NormalLayer, OrganizationName, PersonalDetail },
+  components: { FormItems, NormalLayer, OrganizationName, reportDetailIndex },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -73,6 +73,7 @@ export default {
         { type: 'selection' },
         { type: 'index', label: '序号' },
         { label: '审核状态', prop: 'aab069' },
+        { label: '单位名称', prop: 'c' },
         { label: '主管单位名称', prop: 'c' },
         { label: '考核年度', prop: 'aab019' },
         { label: '应参加考核人数', prop: 'rb0195' },
@@ -96,15 +97,7 @@ export default {
   mounted() {
   },
   methods: {
-    showDialog(type, row) {
-      if (type === 'add') {
-        this.isShowAdd = true
-      } else {
-        this.isShowDetail = true
-      }
-    },
     getDetail(row) {
-      this.detailName = row.aab019
       this.isShowDetail = true
     },
     search() {

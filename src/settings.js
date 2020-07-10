@@ -1,5 +1,5 @@
 module.exports = {
-  title: '医保业务基础子系统',
+  title: '贵州省事业单位人事管理信息系统',
 
   /**
    * @type {boolean} true | false

@@ -41,21 +41,21 @@
       </template>
     </normal-layer>
     <!-- 人员信息 -->
-    <PersonalDetail v-model="isShowDetail" :detail-info="detailInfo" :dialog-title="`查看《${detailName}的个人档案》信息`" />
+    <PersonnelInfoView v-model="isShowDetail" :operation="operation" :dialog-title="`查看《${detailName}的个人档案》信息`" />
   </div>
 </template>
 
 <script>
 import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import PersonnelInfoView from '@/views/components/PersonnelInfoView/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
-import PersonalDetail from '@/views/components/personalDetail/index'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'TrainingManagement',
-  components: { FormItems, NormalLayer, OrganizationName, JobsLevel, PersonalDetail },
+  components: { FormItems, NormalLayer, OrganizationName, JobsLevel, PersonnelInfoView },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -109,18 +109,11 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.search()
+    // this.search()
   },
   mounted() {
   },
   methods: {
-    showDialog(type, row) {
-      if (type === 'add') {
-        this.isShowAdd = true
-      } else {
-        this.isShowDetail = true
-      }
-    },
     getDetail(row) {
       this.detailName = row.aab019
       this.isShowDetail = true

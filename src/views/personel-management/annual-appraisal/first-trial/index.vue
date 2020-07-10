@@ -22,15 +22,15 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation">
-            <el-button type="text">审核</el-button>
+          <template slot="operation" slot-scope="{row}">
+            <el-button type="text" @click="doAudit(row)">审核</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <!-- 人员信息 -->
-    <PersonalDetail v-model="isShowDetail" :detail-info="detailInfo" :dialog-title="`查看《${detailName}的个人档案》信息`" />
+    <!-- 审核 -->
+    <reportIndex v-model="isShowAudit" :detail-info="detailInfo" />
   </div>
 </template>
 
@@ -39,11 +39,11 @@ import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
-import PersonalDetail from '@/views/components/personalDetail/index'
 import pageHandle from '@/mixins/pageHandle'
+import reportIndex from '../component/reportIndex'
 export default {
   name: 'FirstTrial',
-  components: { FormItems, NormalLayer, OrganizationName, PersonalDetail },
+  components: { FormItems, NormalLayer, OrganizationName, reportIndex },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -60,7 +60,7 @@ export default {
       loading: false,
       isShowDetail: false,
       isShowAdd: false,
-      isShowEdit: false,
+      isShowAudit: false,
       isShowTheDetail: false,
       reportVisible: false,
       operation: 'detail',
@@ -95,16 +95,9 @@ export default {
   mounted() {
   },
   methods: {
-    showDialog(type, row) {
-      if (type === 'add') {
-        this.isShowAdd = true
-      } else {
-        this.isShowDetail = true
-      }
-    },
-    getDetail(row) {
-      this.detailName = row.aab019
-      this.isShowDetail = true
+    doAudit(row) {
+      this.detailInfo = row
+      this.isShowAudit = true
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })

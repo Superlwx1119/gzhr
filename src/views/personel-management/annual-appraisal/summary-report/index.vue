@@ -26,14 +26,10 @@
 
 <script>
 import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
-import FormItems from '@/views/components/PageLayers/form-items'
-import OrganizationName from '@/components/Select/OrganizationName'
-import NormalLayer from '@/views/components/PageLayers/normalLayer'
-import PersonalDetail from '@/views/components/personalDetail/index'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'SecondTrial',
-  components: { FormItems, NormalLayer, OrganizationName, PersonalDetail },
+  components: { },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -80,7 +76,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.search()
+    // this.search()
   },
   mounted() {
   },
