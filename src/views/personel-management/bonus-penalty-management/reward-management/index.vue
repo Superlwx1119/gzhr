@@ -1,5 +1,5 @@
 <template>
-  <!--合同管理-->
+  <!--奖励管理-->
   <div class="rewardManagement">
     <normal-layer :search-number="6">
       <template slot="search-header">
@@ -7,10 +7,12 @@
           <template slot="单位">
             <OrganizationName v-model="queryForm.单位" />
           </template>
-          <template slot="合同签订状态">
-            <ContractSigningStatus v-model="queryForm.合同签订状态" />
+          <template slot="奖励名称">
+            <RewardName v-model="queryForm.奖励名称" />
           </template>
-
+          <template slot="批准机关">
+            <ApprovalAuthority v-model="queryForm.批准机关" />
+          </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
             <el-button type="primary" @click="search('queryForm')">查询</el-button>
@@ -38,6 +40,7 @@
     </normal-layer>
     <OrganizationInfoView v-model="isShowOrganizationInfo" :operation="operation" dialog-title="单位信息查看" />
     <PersonnelInfoView v-model="isShowPersonnelInfoView" :operation="operation" dialog-title="个人信息查看" />
+    <edit-dialog v-model="showEditDialog" :dialog-title="dialogTitle" />
   </div>
 </template>
 
@@ -45,27 +48,30 @@
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import OrganizationName from '@/components/Select/OrganizationName'
-import ContractSigningStatus from '@/components/Select/ContractSigningStatus'
+import RewardName from '@/components/Select/RewardName'
+import ApprovalAuthority from '@/components/Select/ApprovalAuthority'
 import pageHandle from '@/mixins/pageHandle'
 import OrganizationInfoView from '@/views/components/OrganizationInfoView/index'
 import PersonnelInfoView from '@/views/components/PersonnelInfoView/index'
+import EditDialog from './edit'
 export default {
   name: 'RewardManagement',
-  components: { FormItems, NormalLayer, ContractSigningStatus, OrganizationName, OrganizationInfoView,
-    PersonnelInfoView },
+  components: { FormItems, NormalLayer, OrganizationName, ApprovalAuthority, RewardName, OrganizationInfoView, PersonnelInfoView, EditDialog },
   mixins: [pageHandle],
   props: {},
   data() {
     return {
       isShowOrganizationInfo: false,
       isShowPersonnelInfoView: false,
+      showEditDialog: false,
       dialogTitle: '',
+      operation: 'detail',
       itemsDatas: [
         { label: '单位', prop: '单位', type: 'custom' },
         { label: '姓名', prop: '姓名', type: 'input' },
-        { label: '身份证号', prop: '身份证号', type: 'input' },
-        { label: '聘期', prop: '聘期', type: 'dateRange' },
-        { label: '合同签订状态', prop: '合同签订状态', type: 'custom' }
+        { label: '奖励名称', prop: '奖励名称', type: 'custom' },
+        { label: '批准日期', prop: '批准日期', type: 'dateRange' },
+        { label: '批准机关', prop: '批准机关', type: 'custom' }
 
       ],
       columns: [
@@ -101,8 +107,8 @@ export default {
       this.isShowPersonnelInfoView = true
     },
     edit() {
-      this.dialogTitle = '新增合同签订信息'
-      this.showAddDialog = true
+      this.dialogTitle = '修改奖励信息'
+      this.showEditDialog = true
     },
     search() {
       // const form = Object.assign(this.queryForm, { pageNum: this.paginationQuery.pageNum, pageSize: this.paginationQuery.pageSize })
