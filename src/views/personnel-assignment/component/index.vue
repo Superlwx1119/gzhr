@@ -9,20 +9,31 @@
   >
     <div class="box">
       <div class="box-body">
-        <BaseInformationForm ref="addForm1" :add-form-data="addForm" />
-        <EducationInformationForm ref="addForm2" :add-form-data="addForm" />
-        <AllocateInformation ref="addForm3" :add-form-data="addForm" />
-        <SpouseInformation ref="addForm4" :add-form-data="addForm" />
-        <FamilyInformation ref="addForm5" :add-form-data="addForm" />
-        <AgentInformation ref="addForm6" :add-form-data="addForm" />
-        <DepartmentAdvise ref="addForm7" :add-form-data="addForm" />
-        <Attachment ref="addForm8" :add-form-data="addForm" />
-        <Audit ref="addForm9" :add-form-data="addForm" />
+        <div v-if="operationType.includes('add')">
+          <BaseInformationForm ref="addForm1" :add-form-data="addForm" />
+          <EducationInformationForm ref="addForm2" :add-form-data="addForm" />
+          <AllocateInformation ref="addForm3" :add-form-data="addForm" />
+          <SpouseInformation ref="addForm4" :add-form-data="addForm" />
+          <FamilyInformation ref="addForm5" :add-form-data="addForm" />
+          <AgentInformation ref="addForm6" :add-form-data="addForm" />
+          <DepartmentAdvise ref="addForm7" :add-form-data="addForm" />
+          <Attachment ref="addForm8" :add-form-data="addForm" />
+        </div>
+        <div v-else>
+          <BaseInformationTable />
+          <EducationTable />
+          <AllocateTable />
+          <SpouseTable />
+          <FamilyTable />
+          <DepartmentTable />
+          <Attachment />
+        </div>
+        <Audit v-if="operationType.includes('audit')" ref="addForm9" :add-form-data="addForm" />
       </div>
     </div>
 
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="save('addForm')">保存</el-button>
+      <el-button v-if="operationType.includes('add')" type="primary" @click="save('addForm')">保存</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </span>
   </form-dialog>
@@ -30,6 +41,12 @@
 
 <script>
 import BaseInformationForm from './base-information-form'
+import EducationTable from './education-table'
+import SpouseTable from './spouse-table'
+import FamilyTable from './family-table'
+import DepartmentTable from './department-table'
+import AllocateTable from './allocate-table'
+import BaseInformationTable from './base-information-table'
 import AllocateInformation from './allocate-information'
 import EducationInformationForm from './education-information'
 import SpouseInformation from './spouse-information'
@@ -40,6 +57,12 @@ import Attachment from './attachment'
 import Audit from './audit'
 export default {
   components: {
+    BaseInformationTable,
+    DepartmentTable,
+    AllocateTable,
+    FamilyTable,
+    SpouseTable,
+    EducationTable,
     BaseInformationForm,
     EducationInformationForm,
     AllocateInformation,
@@ -67,9 +90,9 @@ export default {
       type: Boolean,
       default: false
     },
-    operation: {
-      type: String,
-      default: 'detail'
+    operationType: {
+      type: Array,
+      default: function() { return [] }
     }
   },
   data() {
@@ -95,8 +118,8 @@ export default {
       this.$refs.addForm5.$refs.addForm.resetFields()
       this.$refs.addForm6.$refs.addForm.resetFields()
       this.$refs.addForm7.$refs.addForm.resetFields()
-      this.$refs.addForm8.$refs.addForm.resetFields()
-      this.$refs.addForm9.$refs.addForm.resetFields()
+      // this.$refs.addForm8.$refs.addForm.resetFields()
+      // this.$refs.addForm9.$refs.addForm.resetFields()
     },
     isShow(v) {
       this.$emit('closeAll', false)

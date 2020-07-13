@@ -2,7 +2,7 @@
   <div class="HiringApply">
     <!-- 基本信息表单 -->
     <div class="box-header handle">
-      <span class="box-title">基本信息表单</span>
+      <span class="box-title">基本信息</span>
     </div>
     <el-form ref="addForm" :model="addForm" :rules="rules" label-width="105px">
       <el-row :gutter="12">

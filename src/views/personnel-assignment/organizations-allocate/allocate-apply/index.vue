@@ -1,7 +1,7 @@
 <template>
   <!--人员调配申报-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="7">
+    <normal-layer :search-number="5">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="来源渠道">
@@ -25,7 +25,7 @@
       <div slot="table-title" class="box-header handle">
         <span class="box-title">人员调配申报列表</span>
         <div slot="title-btns" class="box-tools">
-          <el-button type="primary" @click="isShowDetail = true">新增</el-button>
+          <el-button type="primary" @click="shosDialog(['add'])">新增</el-button>
           <el-button type="primary">申报</el-button>
           <el-button type="danger">删除</el-button>
         </div>
@@ -33,15 +33,15 @@
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
           <template slot="operation">
-            <el-button type="text" @click="isShowDetail = true">编辑</el-button>
-            <el-button type="text" @click="isShowTheDetail = true">查看</el-button>
+            <el-button type="text" @click="shosDialog(['add'])">编辑</el-button>
+            <el-button type="text" @click="shosDialog(['detail'])">查看</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
     <!-- 人员信息 -->
-    <PersonnelInfoView v-model="isShowDetail" :operation="operation" dialog-title="查看信息" />
+    <PersonnelInfoView v-model="isShowDetail" :operation-type="operationType" dialog-title="查看信息" />
   </div>
 </template>
 
@@ -77,7 +77,7 @@ export default {
       isShowEdit: false,
       isShowTheDetail: false,
       reportVisible: false,
-      operation: 'detail',
+      operationType: [],
       itemsDatas: [
         { label: '姓名', prop: '姓名', type: 'input' },
         { label: '流程状态', prop: '流程状态', type: 'custom' },
@@ -111,6 +111,10 @@ export default {
   methods: {
     getDetail(row) {
       this.detailName = row.aab019
+      this.isShowDetail = true
+    },
+    shosDialog(type) {
+      this.operationType = type
       this.isShowDetail = true
     },
     search() {
