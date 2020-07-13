@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 奖励内容 -->
+    <!-- 处分名称 -->
     <el-select v-model="selectValue" placeholder="请选择" @change="handleSelectChange">
       <el-option
         v-for="item in options"

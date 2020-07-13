@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 处分原因 -->
+    <!-- 专业技术职务 -->
     <el-select v-model="selectValue" placeholder="请选择" @change="handleSelectChange">
       <el-option
         v-for="item in options"
@@ -26,8 +26,9 @@ export default {
     return {
       selectValue: '',
       options: [
-        { label: '违反政治记录行为', value: '1' },
-        { label: '组织、参加反对党的理论、政策等集会、游行示威活动', value: '2' }
+        { label: '高级岗位一级', value: '1' },
+        { label: '高级岗位二级', value: '2' },
+        { label: '高级岗位三级', value: '3' }
       ]
     }
   },

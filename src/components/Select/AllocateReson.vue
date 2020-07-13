@@ -1,5 +1,5 @@
 <template>
-  <!-- 学历 -->
+  <!-- 调动原因 -->
   <el-select
     :value="currValue"
     style="width: 100%"
@@ -30,9 +30,9 @@ export default {
     return {
       currValue: this.value,
       options: [
-        { name: '小学', value: '1' },
-        { name: '初中', value: '2' },
-        { name: '高中', value: '3' }
+        { name: '人才引进', value: 1 },
+        { name: '工作需要', value: 2 },
+        { name: '夫妻分居', value: 3 }
       ]
     }
   },

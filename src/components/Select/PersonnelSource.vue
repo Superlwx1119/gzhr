@@ -1,10 +1,10 @@
 <template>
-  <!-- 学历 -->
+  <!--  人员来源渠道-->
   <el-select
     :value="currValue"
-    style="width: 100%"
-    :disabled="_disabled"
     placeholder="请选择"
+    :disabled="_disabled"
+    style="width: 100%"
     @input="handleSelectChange($event)"
   >
     <el-option v-for="(v, i) in options" :key="i" :label="v.name" :value="v.value" />
@@ -13,13 +13,12 @@
 
 <script>
 export default {
-  name: 'DiseaseType',
   components: {},
   mixins: [],
   props: {
     value: {
-      type: [String, Number],
-      default: null
+      type: String,
+      default: ''
     },
     disabled: {
       type: Boolean,
@@ -30,9 +29,9 @@ export default {
     return {
       currValue: this.value,
       options: [
-        { name: '小学', value: '1' },
-        { name: '初中', value: '2' },
-        { name: '高中', value: '3' }
+        { name: '省外调入', value: '1' },
+        { name: '省直平级交流', value: '2' },
+        { name: '省内下级单位调入', value: '3' }
       ]
     }
   },
@@ -58,4 +57,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped>
+
+</style>

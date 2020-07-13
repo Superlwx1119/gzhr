@@ -1,5 +1,5 @@
 <template>
-  <!-- 学历 -->
+  <!-- 流动方向 -->
   <el-select
     :value="currValue"
     style="width: 100%"
@@ -30,9 +30,8 @@ export default {
     return {
       currValue: this.value,
       options: [
-        { name: '小学', value: '1' },
-        { name: '初中', value: '2' },
-        { name: '高中', value: '3' }
+        { name: '顺向及平级流动', value: 1 },
+        { name: '逆向流动', value: 2 }
       ]
     }
   },

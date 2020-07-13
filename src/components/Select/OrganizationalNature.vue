@@ -1,13 +1,9 @@
 <template>
   <div>
-    <!-- 处分原因 -->
+    <!-- 单位性质 -->
     <el-select v-model="selectValue" placeholder="请选择" @change="handleSelectChange">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      /></el-select>
+      <el-option v-for="item of options" :key="item.value" :label="item.label" :value="item.value" />
+    </el-select>
   </div>
 </template>
 
@@ -26,8 +22,9 @@ export default {
     return {
       selectValue: '',
       options: [
-        { label: '违反政治记录行为', value: '1' },
-        { label: '组织、参加反对党的理论、政策等集会、游行示威活动', value: '2' }
+        { label: '机关单位', value: '1' },
+        { label: '事业单位(差额)', value: '2' },
+        { label: '事业单位(全额)', value: '3' }
       ]
     }
   },
