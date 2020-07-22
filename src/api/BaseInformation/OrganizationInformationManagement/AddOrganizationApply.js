@@ -47,3 +47,14 @@ export function queryCorpDetail(query) {
     params: query
   })
 }
+/**
+ * 查询单位变更记录
+ * @param query
+ */
+export function queryChangeCorpList(query) {
+  return request({
+    url: api.queryChangeCorpList,
+    method: 'get',
+    params: query
+  })
+}

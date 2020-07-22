@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import { list } from '@/api/BaseInformation/PersonalInformationManagement/DimissionAudit'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'

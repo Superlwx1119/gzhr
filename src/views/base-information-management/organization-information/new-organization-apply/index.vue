@@ -1,20 +1,20 @@
 <template>
   <!--新增单位申报-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="8">
+    <normal-layer :search-number="7">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
             <OrganizationName v-model="queryForm.单位" />
           </template>
           <template slot="单位类型">
-            <OrganizationType v-model="queryForm.单位类型" />
+            <OrganizationType v-model="queryForm.aab019" @input="function(){return handleSelectChange(queryForm.aab019,'aab019') }" />
           </template>
           <template slot="是否参公">
             <IfElseJoin v-model="queryForm.是否参公" />
           </template>
           <template slot="单位级别">
-            <OrganizationLevel v-model="queryForm.单位级别" />
+            <OrganizationLevel v-model="queryForm.rb0150" @input="function(){return handleSelectChange(queryForm.rb0150,'rb0150') }" />
           </template>
           <template slot="复刻标志">
             <RetroMark v-model="queryForm.复刻标志" />
@@ -23,7 +23,7 @@
             <OrganizationName v-model="queryForm.主管部门" />
           </template>
           <template slot="行业代码">
-            <Industry v-model="queryForm.行业代码" />
+            <Industry v-model="queryForm.aab022" @input="function(){return handleSelectChange(queryForm.aab022,'aab022') }" />
           </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
@@ -50,7 +50,7 @@
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="单位信息查看" />
+    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="单位信息查看" @search="search" />
   </div>
 </template>
 
@@ -89,12 +89,12 @@ export default {
         // { label: '年度', prop: '年度1', type: 'dateYear' },
         { label: '单位', prop: '单位', type: 'custom' },
         { label: '单位类型', prop: '单位类型', type: 'custom' },
-        { label: '是否参公', prop: '是否参公', type: 'custom' },
+        // { label: '是否参公', prop: '是否参公', type: 'custom' },
         { label: '单位级别', prop: '单位级别', type: 'custom' },
-        { label: '复刻标志', prop: '复刻标志', type: 'custom' },
+        // { label: '复刻标志', prop: '复刻标志', type: 'custom' },
         { label: '主管部门', prop: '主管部门', type: 'custom' },
-        { label: '行业代码', prop: '行业代码', type: 'custom' },
-        { label: '组织机构代码', prop: '组织机构代码', type: 'input' }
+        { label: '行业代码', prop: '行业代码', type: 'custom' }
+        // { label: '组织机构代码', prop: '组织机构代码', type: 'input' }
       ],
       options: [{
         value: 'zhinan',
@@ -338,7 +338,7 @@ export default {
     },
     getDetail(id) {
       queryCorpDetail({ id: id }).then(res => {
-        this.detailInfo = res.data
+        this.detailInfo = Object.assign(res.data, { aab001: id })
         this.isShowDetail = true
       })
     },
@@ -359,6 +359,9 @@ export default {
     },
     handleSave() {
       this.$msgSuccess('保存成功！')
+    },
+    handleSelectChange(v, type) {
+      this.queryForm[type] = v
     },
     calculate() { this.reportVisible = true }
   }

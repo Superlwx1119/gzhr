@@ -2,9 +2,10 @@
   <div>
     <!-- 复刻标志 -->
     <el-select v-model="selectValue" placeholder="请选择" filterable @change="handleSelectChange">
-      <el-option label="申请/退回" value="0" />
+      <!-- <el-option label="申请/退回" value="0" />
       <el-option label="审核完成" value="1" />
-      <el-option label="主管审核" value="2" />
+      <el-option label="主管审核" value="2" /> -->
+      <el-option v-for="(item,index) of options" :key="index" :label="item.codeName" :value="item.codeValue" />
     </el-select>
   </div>
 </template>
@@ -23,11 +24,7 @@ export default {
   data() {
     return {
       selectValue: '',
-      options: [
-        { label: '已提交申报数据', value: '1' },
-        { label: '已提交申报材料', value: '2' },
-        { label: '中心已受理', value: '3' }
-      ]
+      options: []
     }
   },
   watch: {

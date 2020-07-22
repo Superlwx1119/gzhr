@@ -170,7 +170,7 @@
             <el-col :span="24">
               <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                :action="uploadUrl"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
@@ -230,6 +230,7 @@
 </template>
 
 <script>
+import uploadAttachment from '@/api/Common/Api'
 import HealthType from '@/components/Select/HealthType'
 import StaffType from '@/components/Select/StaffType'
 import OverseasChinese from '@/components/Select/OverseasChinese'
@@ -257,6 +258,7 @@ export default {
     return {
       addForm: this.addFormData,
       imageUrl: '',
+      uploadUrl: '',
       columns: [
         { label: '附件数', prop: '附件数', align: 'center' },
         { label: '材料名称', prop: '材料名称', align: 'center' },
@@ -322,24 +324,28 @@ export default {
       this.$emit('input', this.addForm)
     }
   },
+  created() {
+    this.uploadUrl = process.env.VUE_APP_BASE_API + uploadAttachment.uploadAttachment
+  },
   methods: {
     handleSelectChange(v) {
       this.$emit('input', v)
     },
     handleAvatarSuccess(res, file) {
+      console.log(res)
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      // const isJPG = file.type === 'image/jpeg'
+      // const isLt2M = file.size / 1024 / 1024 < 2
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
     }
   }
 }
