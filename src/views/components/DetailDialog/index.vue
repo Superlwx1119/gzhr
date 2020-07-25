@@ -9,7 +9,12 @@
   >
     <div class="box">
       <div class="box-body">
-        <AddInformation v-if="operation === 'add'" ref="addForm" v-loading="loading" :add-form-data="addForm" />
+        <div class="box-header handle">
+          <span class="box-title">单位基础信息</span>
+        </div>
+        <AddInformation v-if="operation === 'add'||operation === 'edit'" ref="addForm" :add-form-data="addForm" :detail-info="detailInfo" />
+        <BaseInformation v-else :detail-info="detailInfo" />
+        <!-- <AddInformation v-if="operation === 'add'" ref="addForm" v-loading="loading" :add-form-data="addForm" />
         <el-tabs v-else type="border-card">
           <el-tab-pane label="基本信息">
             <AddInformation v-if="operation === 'edit'" ref="addForm" :add-form-data="addForm" :detail-info="detailInfo" />
@@ -21,9 +26,19 @@
           <el-tab-pane label="内设机构">
             <Organization :operation="operation" />
           </el-tab-pane>
-        </el-tabs>
+        </el-tabs> -->
         <div class="box-header handle">
           <span class="box-title">业务材料</span>
+          <div slot="title-btns" style="float:right;width:60px" class="box-tools">
+            <!-- <el-button type="primary">上传</el-button> -->
+            <el-upload
+              class="upload-demo"
+              :action="url"
+              :on-success="handleAvatarSuccess"
+            >
+              <el-button size="small" type="primary">上传</el-button>
+            </el-upload>
+          </div>
         </div>
         <List :is-border="true" :is-index="true" :columns="columns" :operates="operation === 'detail'||operation === 'apply'?tableOperatesEdit:tableOperates" :data="tableData" />
       </div>
@@ -44,16 +59,17 @@
 </template>
 
 <script>
-import { addCorp, modifyCorp } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import { addCorp, modifyCorp, queryCorpDetail } from '@/api/OrganizationInformationManagement/AddOrganizationApply'
+import fileUrl from '@/api/Common/Api'
 import AddInformation from './addInformation'
 import BaseInformation from './baseInformation'
-import SettingInformation from './settingInformation'
-import Organization from './organization'
+// import SettingInformation from './settingInformation'
+// import Organization from './organization'
 export default {
   components: {
-    Organization,
+    // Organization,
     BaseInformation,
-    SettingInformation,
+    // SettingInformation,
     AddInformation
   },
   model: {
@@ -61,10 +77,6 @@ export default {
     event: 'closeAll'
   },
   props: {
-    detailInfo: {
-      type: Object,
-      default: function() { return {} }
-    },
     dialogTitle: {
       type: String,
       default: '信息查看'
@@ -80,16 +92,18 @@ export default {
   },
   data() {
     return {
+      url: '',
       addForm: {},
       activeName: '1',
       queryForm: {},
       isShowAdd: false,
       loading: false,
+      detailInfo: {},
       tableOperates: {
         width: '120px',
         fixed: 'right',
         list: [
-          { show: true, label: '上传', type: 'text', method: () => {
+          { show: true, label: '删除', class: 'delete', type: 'text', method: () => {
           } }
         ]
       },
@@ -111,10 +125,27 @@ export default {
       ]
     }
   },
+  create() {
+    this.url = fileUrl.uploadAttachment
+  },
   methods: {
     closeDialog() {
       this.$emit('closeAll', false)
       this.reset()
+    },
+    handleAvatarSuccess(res, file) {
+
+    },
+    queryCorpDetail(id) {
+      if (id === '') {
+        this.addForm = {}
+        this.detailInfo = {}
+        return
+      }
+      queryCorpDetail({ id: id }).then(res => {
+        res.data.rb0806 = res.data.rb0806.toString()
+        this.detailInfo = Object.assign(res.data, { aab001: id })
+      })
     },
     reset() {
       this.$refs.addForm.$refs.addForm.resetFields()
@@ -122,8 +153,7 @@ export default {
     modifyCorp() { // 修改保存
       this.$refs.addForm.$refs.addForm.validate((valid) => {
         if (valid) {
-          this.detailInfo.aab021 = this.detailInfo.aab021[this.detailInfo.aab021.length - 1]
-          this.detailInfo.rb0174 = this.detailInfo.rb0174[this.detailInfo.rb0174.length - 1]
+          this.detailInfo.aab226 = this.detailInfo.aab226[this.detailInfo.aab226.length - 1]
           this.detailInfo.aab001 = this.detailInfo.aab001
           this.loading = true
           modifyCorp(this.detailInfo).then(res => {
@@ -146,8 +176,7 @@ export default {
     addCorp() { // 新增申报
       this.$refs.addForm.$refs.addForm.validate((valid) => {
         if (valid) {
-          this.addForm.aab021 = this.addForm.aab021[this.addForm.aab021.length - 1]
-          this.addForm.rb0174 = this.addForm.rb0174[this.addForm.rb0174.length - 1]
+          this.addForm.aab226 = this.addForm.aab226[this.addForm.aab226.length - 1]
           addCorp(this.addForm).then(res => {
             // console.log(res)
             if (res.code === 0) {

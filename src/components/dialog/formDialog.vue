@@ -47,9 +47,11 @@
       @close="close"
       @closed="closed"
     >
+      <div v-show="loading" v-loading="loading" class="loading-box" />
       <slot />
       <span slot="footer" class="dialog-footer">
-        <slot name="footer" /></span>
+        <slot name="footer" />
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -61,6 +63,10 @@ export default {
     isShow: {
       type: Boolean,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     },
     switchStyle: {
       type: Boolean,
@@ -151,6 +157,13 @@ export default {
   //   flex:1;
   //   overflow: auto;
   // }
+  .loading-box{
+    position: absolute;
+    top: 44px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 44px);
+  }
   .dialog-tab {
     .el-dialog__header {
       border-bottom: 0;

@@ -2,34 +2,37 @@
   <!-- 基础信息 -->
   <div class="box">
     <div class="box-body">
+      <div slot="table-title" class="box-header handle">
+        <span class="box-title">基础信息</span>
+      </div>
       <el-form ref="addForm" :model="addForm" :rules="rules" label-width="105px">
         <el-row :gutter="12">
           <el-col :span="16">
             <el-row :gutter="12">
               <el-col :span="24">
-                <el-form-item label="单位" prop="单位">
-                  <OrganizationName v-model="addForm.单位" />
+                <el-form-item label="单位" prop="aab001">
+                  <OrganizationName v-model="addForm.aab001" @input="function(){return handleSelectChange(addForm.aab001,'aab001')}" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="姓名" prop="姓名">
-                  <el-input v-model="addForm.姓名" />
+                <el-form-item label="姓名" prop="aac003">
+                  <el-input v-model="addForm.aac003" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="身份证号" prop="身份证号">
-                  <el-input v-model="addForm.身份证号" />
+                <el-form-item label="身份证号" prop="aac002">
+                  <el-input v-model="addForm.aac002" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="性别" prop="性别">
-                  <el-input v-model="addForm.性别" />
+                <el-form-item label="性别" prop="aac004">
+                  <Gender v-model="addForm.aac004" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="出生日期" prop="出生日期">
+                <el-form-item label="出生日期" prop="aac006">
                   <el-date-picker
-                    v-model="addForm.出生日期"
+                    v-model="addForm.aac006"
                     type="date"
                     value-format="yyyyMMdd"
                     style="width:100%;height:100%"
@@ -39,9 +42,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="参加工作时间" prop="参加工作时间">
+                <el-form-item label="参加工作时间" prop="aac007">
                   <el-date-picker
-                    v-model="addForm.参加工作时间"
+                    v-model="addForm.aac007"
                     type="date"
                     value-format="yyyyMMdd"
                     style="width:100%;height:100%"
@@ -51,9 +54,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="进入单位时间" prop="进入单位时间">
+                <el-form-item label="进入单位时间" prop="rc0301">
                   <el-date-picker
-                    v-model="addForm.进入单位时间"
+                    v-model="addForm.rc0301"
                     type="date"
                     value-format="yyyyMMdd"
                     style="width:100%;height:100%"
@@ -63,88 +66,76 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="进入方式" prop="进入方式">
-                  <EnterType v-model="addForm.进入方式" />
+                <el-form-item label="进入方式" prop="rc0206">
+                  <EnterType v-model="addForm.rc0206" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="民族" prop="民族">
-                  <National v-model="addForm.民族" />
+                <el-form-item label="民族" prop="aac005">
+                  <National v-model="addForm.aac005" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="籍贯" prop="籍贯">
-                  <el-input v-model="addForm.籍贯" />
+                  <el-input v-model="addForm.籍贯" @input="handleSelectChange"/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="12">
+                <el-form-item label="港澳台侨属" prop="rc0181">
+                  <OverseasChinese v-model="addForm.rc0181" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="港澳台侨属" prop="港澳台侨属">
-                  <OverseasChinese v-model="addForm.港澳台侨属" />
+                <el-form-item label="户口所在地" prop="aac010">
+                  <el-input v-model="addForm.aac010" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="户口所在地" prop="户口所在地">
-                  <el-input v-model="addForm.户口所在地" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="国籍" prop="国籍">
-                  <el-input v-model="addForm.国籍" />
+                  <el-input v-model="addForm.国籍" @input="handleSelectChange"/>
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="12">
+                <el-form-item label="人员类别" prop="rc0215">
+                  <StaffType v-model="addForm.rc0215" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="人员类别" prop="人员类别">
-                  <StaffType v-model="addForm.人员类别" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="新进人员登记表编号" prop="新进人员登记表编号">
-                  <el-input v-model="addForm.新进人员登记表编号" />
+                  <el-input v-model="addForm.新进人员登记表编号" @input="handleSelectChange" />
+                </el-form-item>
+              </el-col> -->
+              <el-col :span="12">
+                <el-form-item label="原单位名称" prop="rc0302">
+                  <el-input v-model="addForm.rc0302" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="原单位名称" prop="原单位名称">
-                  <el-input v-model="addForm.原单位名称" />
+                <el-form-item label="原单位职务" prop="rc0303">
+                  <el-input v-model="addForm.rc0303" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="原单位职务" prop="原单位职务">
-                  <el-input v-model="addForm.原单位职务" />
+                <el-form-item label="招聘方式" prop="rc0311">
+                  <HireType v-model="addForm.rc0311" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="招聘方式" prop="招聘方式">
-                  <el-select v-model="addForm.招聘方式" placeholder="请选择" @input="handleSelectChange">
-                    <el-option label="考试" value="1" />
-                    <el-option label="考察" value="2" />
-                  </el-select>
+                <el-form-item label="来源类型" prop="rc0212">
+                  <SourceType v-model="addForm.rc0212" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="来源类型" prop="来源类型">
-                  <el-select v-model="addForm.来源类型" placeholder="请选择" @input="handleSelectChange">
-                    <el-option label="应届毕业生" value="1" />
-                    <el-option label="社会人员" value="2" />
-                  </el-select>
+                <el-form-item label="健康状况" prop="aac033">
+                  <HealthType v-model="addForm.aac033" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="健康状况" prop="健康状况">
-                  <HealthType v-model="addForm.健康状况" @input="handleSelectChange" />
+                <el-form-item label="婚姻状况" prop="aac017">
+                  <MaritalStatus v-model="addForm.aac017" @input="handleSelectChange" />
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="婚姻状况" prop="婚姻状况">
-                  <el-select v-model="addForm.婚姻状况" placeholder="请选择" @input="handleSelectChange">
-                    <el-option label="未婚" value="1" />
-                    <el-option label="已婚" value="2" />
-                    <el-option label="丧偶" value="3" />
-                    <el-option label="离婚" value="4" />
-                    <el-option label="其他" value="5" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="联系人姓名" prop="联系人姓名">
                   <el-input v-model="addForm.联系人姓名" />
                 </el-form-item>
@@ -163,7 +154,7 @@
                 <el-form-item label="家庭住址" prop="家庭住址">
                   <el-input v-model="addForm.家庭住址" />
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-col>
           <el-col :span="8">
@@ -179,7 +170,7 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon" />
               </el-upload>
             </el-col>
-            <el-col :span="24">
+            <!-- <el-col :span="24">
               <el-form-item label="入职批准情况" prop="入职批准情况">
                 <el-select v-model="addForm.入职批准情况" placeholder="请选择" @input="handleSelectChange">
                   <el-option label="经组织或人社部门批准进入" value="1" />
@@ -187,22 +178,18 @@
                   <el-option label="单位自行聘用" value="3" />
                 </el-select>
               </el-form-item>
-            </el-col>
-            <el-col :span="24">
+            </el-col> -->
+            <!-- <el-col :span="24">
               <el-form-item label="原单位岗位级别" prop="原单位岗位级别">
                 <JobsLevel v-model="addForm.原单位岗位级别" @input="handleSelectChange" />
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :span="24">
-              <el-form-item label="试用期限" prop="试用期限">
-                <el-select v-model="addForm.试用期限" placeholder="请选择" @input="handleSelectChange">
-                  <el-option label="1个月" value="1" />
-                  <el-option label="3个月" value="2" />
-                  <el-option label="6个月" value="3" />
-                </el-select>
+              <el-form-item label="试用期限" prop="rc0310">
+                <ProbationPeriod v-model="addForm.rc0310" @input="handleSelectChange" />
               </el-form-item>
             </el-col>
-            <el-col :span="24">
+            <!-- <el-col :span="24">
               <el-form-item label="专长" prop="专长">
                 <el-input v-model="addForm.专长" />
               </el-form-item>
@@ -212,11 +199,11 @@
                 <el-input v-model="addForm.联系人手机" />
               </el-form-item>
             </el-col>
-          </el-col>
-        </el-row>
+          </el-col> -->
+          </el-col></el-row>
         <el-col :span="24">
-          <el-form-item label="备注" prop="备注">
-            <el-input v-model="addForm.备注" type="textarea" :rows="4" />
+          <el-form-item label="备注" prop="rc0307">
+            <el-input v-model="addForm.rc0307" type="textarea" :rows="4" @input="handleSelectChange" />
           </el-form-item>
         </el-col>
       </el-form>
@@ -230,23 +217,34 @@
 </template>
 
 <script>
+import validator from '@/utils/el-validator.js'
 import uploadAttachment from '@/api/Common/Api'
 import HealthType from '@/components/Select/HealthType'
 import StaffType from '@/components/Select/StaffType'
+import SourceType from '@/components/Select/SourceType'
 import OverseasChinese from '@/components/Select/OverseasChinese'
-import JobsLevel from '@/components/Select/JobsLevel'
+import HireType from '@/components/Select/HireType'
+import OrganizationName from '@/components/Select/OrganizationName'
+// import JobsLevel from '@/components/Select/JobsLevel'
 import National from '@/components/Select/National'
 import EnterType from '@/components/Select/EnterType'
-import OrganizationName from '@/components/Select/OrganizationName'
+import ProbationPeriod from '@/components/Select/ProbationPeriod'
+import MaritalStatus from '@/components/Select/MaritalStatus'
+import Gender from '@/components/Select/Gender'
 export default {
   components: {
     OrganizationName,
+    Gender,
+    MaritalStatus,
+    ProbationPeriod,
     EnterType,
     National,
     HealthType,
     StaffType,
+    SourceType,
     OverseasChinese,
-    JobsLevel
+    HireType
+    // JobsLevel
   },
   props: {
     addFormData: {
@@ -279,40 +277,40 @@ export default {
         ]
       },
       rules: {
-        单位: [
+        aab001: [
           { required: true, message: '请选择单位名称', trigger: 'change' }
         ],
-        姓名: [
+        aac003: [
           { required: true, message: '请输入姓名', trigger: 'blur' }
         ],
-        身份证号: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' }
+        aac002: [
+          { required: true, validator: validator, regexp: 'identityCard', trigger: 'blur' }
         ],
-        性别: [
+        aac004: [
           { required: true, message: '请选择性别', trigger: 'change' }
         ],
-        出生日期: [
+        aac006: [
           { required: true, message: '请选择出生日期', trigger: 'change' }
         ],
-        参加工作时间: [
+        aac007: [
           { required: true, message: '请选择参加工作时间', trigger: 'change' }
         ],
-        进入单位时间: [
+        rc0301: [
           { required: true, message: '请选择进入单位时间', trigger: 'change' }
         ],
-        进入方式: [
+        rc0206: [
           { required: true, message: '请选择进入方式', trigger: 'change' }
         ],
-        人员类别: [
+        rc0215: [
           { required: true, message: '请选择人员类别', trigger: 'change' }
         ],
-        招聘方式: [
+        rc0311: [
           { required: true, message: '请选择招聘方式', trigger: 'change' }
         ],
-        来源类型: [
+        rc0212: [
           { required: true, message: '请选择来源类型', trigger: 'change' }
         ],
-        试用期限: [
+        rc0310: [
           { required: true, message: '请选择试用期限', trigger: 'change' }
         ]
       }
@@ -328,11 +326,18 @@ export default {
     this.uploadUrl = process.env.VUE_APP_BASE_API + uploadAttachment.uploadAttachment
   },
   methods: {
-    handleSelectChange(v) {
+    handleSelectChange(v, type) {
+      if (type === 'aab001') {
+        this.$store.state.dictionary.dictionary.aab069.forEach(item => {
+          if (item.aab001 === v) {
+            this.addForm.aab069 = item.aab069
+          }
+        })
+      }
+
       this.$emit('input', v)
     },
     handleAvatarSuccess(res, file) {
-      console.log(res)
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     beforeAvatarUpload(file) {

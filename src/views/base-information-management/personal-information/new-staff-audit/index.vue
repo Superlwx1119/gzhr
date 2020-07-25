@@ -41,14 +41,17 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation">
-            <el-button type="text">审核</el-button>
-            <el-button type="text">撤回</el-button>
+          <template slot="operation" slot-scope="{row}">
+            <el-button type="text" @click="showDialog(row)">审核</el-button>
+            <!-- <el-button type="text">撤回</el-button> -->
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
+    <!-- 审核/详情 -->
+    <Detail ref="addForm" v-model="isShowDetail" :operation="operation" :detail-info="detailInfo" dialog-title="人员进入登记" @search="search" />
+
   </div>
 </template>
 
@@ -61,19 +64,17 @@ import EnterType from '@/components/Select/EnterType'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
 import pageHandle from '@/mixins/pageHandle'
+import Detail from './dialog/detail'
 export default {
   name: 'StaffRegistration',
-  components: { FormItems, NormalLayer, OrganizationLevel, EnterType, OrganizationName, JobsLevel },
+  components: { FormItems, NormalLayer, OrganizationLevel, EnterType, OrganizationName, JobsLevel, Detail },
   mixins: [pageHandle],
   props: {},
   data() {
     return {
       pageInfo: {
         pageNum: 1,
-        pageSize: 15,
-        total: 10,
-        startRow: 1,
-        endRow: 10
+        pageSize: 15
       },
       detailInfo: {},
       loading: false,
@@ -94,20 +95,14 @@ export default {
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '入职附件', prop: 'aab001' },
-        { label: '审核状态', prop: 'aab069' },
-        { label: '单位名称', prop: 'c' },
-        { label: '姓名', prop: 'aab019' },
-        { label: '性别', prop: 'rb0195' },
-        { label: '身份证号码', prop: 'aab023' },
-        { label: '人员类型', prop: 'aab022' },
-        { label: '岗位等级', prop: 'rb0705' },
-        { label: '兼任的岗位等级', prop: 'i' },
-        { label: '进入方式', prop: 'k' },
-        { label: '进入单位时间', prop: 'l' },
-        { label: '最高学历', prop: 'm' },
-        { label: '现状态', prop: 'n' },
-        { label: '人员动态', prop: 'o' },
+        { label: '单位名称', prop: 'aab069' },
+        { label: '姓名', prop: 'aac003' },
+        { label: '性别', prop: 'aac004' },
+        { label: '身份证号码', prop: 'aac002' },
+        { label: '部门', prop: 'aab022' },
+        { label: '岗位等级', prop: 'rc0703' },
+        { label: '进入方式', prop: 'rc0206' },
+        { label: '审核状态', prop: 'flowStatus' },
         { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
 
       ],
@@ -122,15 +117,12 @@ export default {
   mounted() {
   },
   methods: {
-    showDialog(type, row) {
-      if (type === 'add') {
-        this.isShowAdd = true
-      } else {
-        this.isShowDetail = true
-      }
+    showDialog(row) {
+      this.isShowDetail = true
+      this.$refs.addForm.personDetail(row)
     },
     search() {
-      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, workflowNodes: [2] })
       this.$search(list, form)
     },
     pageChange(data) {

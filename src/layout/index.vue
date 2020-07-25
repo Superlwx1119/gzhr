@@ -1,5 +1,5 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
+  <div v-if="!isIframe" :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
@@ -12,6 +12,13 @@
         <settings />
       </right-panel>
     </div>
+  </div>
+  <div v-else :class="classObj" class="app-wrapper">
+
+    <!-- <div class="fixed-footer">
+        <footer-bar/>
+      </div> -->
+    <app-main />
   </div>
 </template>
 
@@ -32,6 +39,11 @@ export default {
     TagsView
   },
   mixins: [ResizeMixin],
+  data() {
+    return {
+      isIframe: false
+    }
+  },
   computed: {
     ...mapState({
       sidebar: state => state.app.sidebar,
@@ -50,7 +62,13 @@ export default {
     }
   },
   created() {
-    console.log()
+    if (top.location !== location) {
+    // top.location.href= location.href;
+      // alert(1)
+      this.isIframe = true
+    } else {
+      this.isIframe = false
+    }
   },
   methods: {
     handleClickOutside() {

@@ -48,7 +48,7 @@
       </el-col>
       <el-col :md="12" :lg="8" :xl="6">
         <el-form-item label="所属系统" prop="rb0174">
-          <SubordinateRelations v-model="addForm.rb0174" @input="handleSelectChange" />
+          <System v-model="addForm.rb0174" @input="handleSelectChange" />
         </el-form-item>
       </el-col>
       <el-col :md="12" :lg="8" :xl="6">
@@ -68,6 +68,7 @@
           </el-col> -->
       <el-col :md="12" :lg="8" :xl="6">
         <el-form-item label="行政区划" prop="aab226">
+          <!-- <SubordinateRelations v-model="addForm.aab226" @input="handleSelectChange" /> -->
           <AdministrativeArea v-model="addForm.aab226" @input="handleSelectChange" />
         </el-form-item>
       </el-col>
@@ -220,6 +221,7 @@ import OrganizationName from '@/components/Select/OrganizationName'
 import OrganizationType from '@/components/Select/OrganizationType'
 import SubordinateRelations from '@/components/Select/SubordinateRelations'
 import OrganizationLevel from '@/components/Select/OrganizationLevel'
+import System from '@/components/Select/System'
 // import FundSources from '@/components/Select/FundSources'
 import Industry from '@/components/Select/Industry'
 export default {
@@ -229,6 +231,7 @@ export default {
     OrganizationType,
     SubordinateRelations,
     OrganizationLevel,
+    System,
     // FundSources,
     Industry
   },

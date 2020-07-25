@@ -7,7 +7,7 @@
     placeholder="请选择"
     @input="handleSelectChange($event)"
   >
-    <el-option v-for="(v, i) in options" :key="i" :label="v.name" :value="v.value" />
+    <el-option v-for="(item,index) of options" :key="index" :label="item.codeName" :value="item.codeValue" />
   </el-select>
 </template>
 
@@ -29,11 +29,7 @@ export default {
   data() {
     return {
       currValue: this.value,
-      options: [
-        { name: '技术一级', value: 1 },
-        { name: '技术二级', value: 2 },
-        { name: '管理一级', value: 3 }
-      ]
+      options: []
     }
   },
   computed: {
@@ -47,6 +43,16 @@ export default {
     }
   },
   created() {
+    if (this.$store.state.dictionary.dictionary['rc0703']) {
+      this.options = this.$store.state.dictionary.dictionary['rc0703']
+      return
+    }
+    this.$getTypeCodes('rc0703', (res) => {
+      this.options = res
+      const dictionary = {}
+      dictionary.rc0703 = res
+      this.$store.dispatch('dictionary/setDictionary', dictionary)
+    })
   },
   mounted() {
   },

@@ -5,8 +5,8 @@
       <el-option
         v-for="item in options"
         :key="item.value"
-        :label="item.label"
-        :value="item.value"
+        :label="item.codeName"
+        :value="item.codeValue"
       /></el-select>
   </div>
 </template>
@@ -25,11 +25,7 @@ export default {
   data() {
     return {
       selectValue: '',
-      options: [
-        { label: '汉族', value: '1' },
-        { label: '蒙古族', value: '2' },
-        { label: '回族', value: '3' }
-      ]
+      options: []
     }
   },
   watch: {
@@ -41,6 +37,16 @@ export default {
     }
   },
   created() {
+    if (this.$store.state.dictionary.dictionary['aac005']) {
+      this.options = this.$store.state.dictionary.dictionary['aac005']
+      return
+    }
+    this.$getType('aac005', (res) => {
+      this.options = res
+      const dictionary = {}
+      dictionary.aac005 = res
+      this.$store.dispatch('dictionary/setDictionary', dictionary)
+    })
   },
   methods: {
     handleSelectChange(v) {

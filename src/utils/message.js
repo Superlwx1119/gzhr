@@ -1,5 +1,5 @@
 import { MessageBox, Message } from 'element-ui'
-import { getCodeByType } from '@/api/Common/Request'
+import { getCodeByType, getCodeByTypeCodes } from '@/api/Common/Request'
 /**
  * @author 封装 element-ui 确认框弹框
  * @param text
@@ -112,7 +112,25 @@ export function del(myapi = Function, params) {
  */
 export function getType(params, myfuntion) {
   getCodeByType({ codeType: params }).then(res => {
-    console.log(res)
+    if (res.code === 0) {
+      const dictionary = {}
+      dictionary[params] = res.data
+      this.$store.dispatch('dictionary/setDictionary', dictionary)
+      if (myfuntion) {
+        return myfuntion(res.data)
+      }
+    } else {
+      this.$msgError(res.message)
+    }
+  }).catch(error => {
+    console.log(error)
+  })
+}
+/**
+ *查询码表codes封装
+ */
+export function getTypeCodes(params, myfuntion) {
+  getCodeByTypeCodes({ codeType: params }).then(res => {
     if (res.code === 0) {
       const dictionary = {}
       dictionary[params] = res.data

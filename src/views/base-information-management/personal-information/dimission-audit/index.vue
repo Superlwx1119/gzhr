@@ -25,10 +25,10 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation">
-            <el-button type="text" @click="isShowDetail = true">查看</el-button>
-            <el-button type="text" @click="isShowTheDetail = true">审核通过</el-button>
-            <el-button type="text" class="delete" @click="isShowEdit = true">审核不通过</el-button>
+          <template slot="operation" slot-scope="{row}">
+            <el-button type="text" @click="showDialog(row)">审核</el-button>
+            <!-- <el-button type="text" @click="retireAudit(row,true)">审核通过</el-button>
+            <el-button type="text" class="delete" @click="retireAudit(row,false)">审核不通过</el-button> -->
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
@@ -39,14 +39,14 @@
     <!-- 修改 -->
     <!-- <EditDialog v-model="isShowEdit" :detail-info="detailInfo" dialog-title="人员退休登记" /> -->
     <!-- 查看 -->
-    <!-- <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" dialog-title="人员退休登记" /> -->
+    <DetailDialog ref="detail" v-model="isShowDetail" :operation="operation" :add-form-data="addForm" dialog-title="人员退休登记" @search="search" />
     <!-- 明细 -->
-    <TheDetail v-model="isShowTheDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员进入登记" />
+    <!-- <TheDetail v-model="isShowTheDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员进入登记" /> -->
   </div>
 </template>
 
 <script>
-import { list } from '@/api/BaseInformation/PersonalInformationManagement/DimissionAudit'
+import { querypendinglist, retireAudit } from '@/api/BaseInformation/PersonalInformationManagement/DimissionAudit'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
@@ -54,21 +54,18 @@ import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
 // import EditDialog from './dialog/edit'
 // import AddDialog from './dialog/add'
-// import DetailDialog from './dialog/detail'
-import TheDetail from '../component/index'
+import DetailDialog from '../dimission-management/dialog/detail'
+// import TheDetail from '../component/index'
 export default {
   name: 'DismissAudit',
-  components: { TheDetail, FormItems, NormalLayer, OrganizationName, JobsLevel },
+  components: { DetailDialog, FormItems, NormalLayer, OrganizationName, JobsLevel },
   mixins: [pageHandle],
   props: {},
   data() {
     return {
       pageInfo: {
         pageNum: 1,
-        pageSize: 15,
-        total: 10,
-        startRow: 1,
-        endRow: 10
+        pageSize: 15
       },
       detailInfo: {},
       loading: false,
@@ -77,7 +74,7 @@ export default {
       isShowEdit: false,
       isShowTheDetail: false,
       reportVisible: false,
-      operation: 'detail',
+      operation: 'audit',
       itemsDatas: [
         // { label: '年度', prop: '年度1', type: 'dateYear' },
         { label: '单位', prop: '单位', type: 'custom' },
@@ -90,20 +87,21 @@ export default {
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '姓名', prop: 'aab069' },
-        { label: '身份证号码', prop: 'c' },
-        { label: '单位名称', prop: 'aab019' },
-        { label: '性别', prop: 'rb0195' },
-        { label: '人员类别', prop: 'aab022' },
-        { label: '离退类别', prop: 'aab023' },
-        { label: '离退日期', prop: 'rb0705' },
-        { label: '离退前级别', prop: 'i' },
-        { label: '离退前职务', prop: 'k' },
-        { label: '离退批准准文号', prop: 'k' },
-        { label: '离退批准单位', prop: 'k' },
-        { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
+        { label: '姓名', prop: 'aac003' },
+        { label: '身份证号码', prop: 'aac002' },
+        { label: '单位名称', prop: 'aab069' },
+        { label: '性别', prop: 'aac004' },
+        { label: '人员类别', prop: 'rc0215' },
+        { label: '离退类别', prop: 'rc0901' },
+        { label: '离退日期', prop: 'rc0902' },
+        { label: '离退前级别', prop: 'rc0903' },
+        { label: '离退前职务', prop: 'rc0908' },
+        { label: '离退批准准文号', prop: 'rc0905' },
+        { label: '离退批准单位', prop: 'rc0906' },
+        { label: '操作', type: 'operation', fixed: 'right', width: '120px' }
       ],
-      tableData: [1]
+      tableData: [],
+      addForm: {}
     }
   },
   computed: {},
@@ -114,30 +112,42 @@ export default {
   mounted() {
   },
   methods: {
-    showDialog(type, row) {
-      if (type === 'add') {
-        this.isShowAdd = true
-      } else {
-        this.isShowDetail = true
-      }
+    showDialog(row) {
+      this.isShowDetail = true
+      this.$refs.detail.info(row)
     },
     search() {
-      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
-      this.$search(list, form)
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, workflowNodes: [2] })
+      this.$search(querypendinglist, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination
       this.search()
     },
-    deleteRow(row) {
-      this.$msgConfirm('确认删除?', '提示', {
+    retireAudit(row, type) {
+      this.$msgConfirm(`确定${type ? '审核通过?' : '审核不通过?'}`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$msgSuccess('删除成功')
+        console.log(this.addForm)
+        const form = {
+          busId: row.arc081,
+          businessKey: 'B01-01-03',
+          isPass: type,
+          workflowNode: [2]
+        }
+        console.log(form)
+        this.loading = true
+        retireAudit(form).then(res => {
+          this.loading = false
+          this.search()
+          this.$msgSuccess(res.message)
+        }).catch(() => {
+          this.loading = false
+        })
       }).catch(() => {
-        this.$msgInfo('已取消删除')
+        this.$msgInfo('已取消')
       })
     },
     handleSave() {

@@ -13,6 +13,7 @@
 </template>
 
 <script type="text/javascript">
+import { getCodeByTypeCodes } from '@/api/Common/Request'
 export default {
   components: {
 
@@ -46,12 +47,18 @@ export default {
       this.options = this.$store.state.dictionary.dictionary['rb0150']
       return
     }
-    this.$getType('rb0150', (res) => {
-      this.options = res
+    getCodeByTypeCodes({ codeType: 'A1414' }).then(res => {
+      this.options = res.data
       const dictionary = {}
-      dictionary.rb0150 = res
+      dictionary.rb0150 = res.data
       this.$store.dispatch('dictionary/setDictionary', dictionary)
     })
+    // this.$getType('rb0150', (res) => {
+    //   this.options = res
+    //   const dictionary = {}
+    //   dictionary.rb0150 = res
+    //   this.$store.dispatch('dictionary/setDictionary', dictionary)
+    // })
   },
   methods: {
     handleSelectChange(v) {

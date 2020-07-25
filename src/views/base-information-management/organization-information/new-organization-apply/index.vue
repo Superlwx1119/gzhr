@@ -1,7 +1,7 @@
 <template>
   <!--新增单位申报-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="7">
+    <normal-layer :search-number="5">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
@@ -41,7 +41,7 @@
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
           <template slot="operation" slot-scope="scope">
-            <el-button type="text" @click="showDialog('apply')">申报</el-button>
+            <!-- <el-button type="text" @click="showDialog('apply')">申报</el-button> -->
             <el-button type="text" @click="showDialog('detail',scope.row)">详情</el-button>
             <el-button type="text" @click="showDialog('edit',scope.row)">修改</el-button>
             <!-- <el-button type="text" class="delete" @click="deleteRow(scope.row)">删除</el-button> -->
@@ -50,12 +50,12 @@
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <DetailDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="单位信息查看" @search="search" />
+    <DetailDialog ref="detailDialog" v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="单位信息查看" @search="search" />
   </div>
 </template>
 
 <script>
-import { queryCorpList, queryCorpDetail } from '@/api/BaseInformation/OrganizationInformationManagement/AddOrganizationApply'
+import { queryCorpList } from '@/api/BaseInformation/OrganizationInformationManagement/AddOrganizationApply'
 import FormItems from '@/views/components/PageLayers/form-items'
 import Industry from '@/components/Select/Industry'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
@@ -310,7 +310,7 @@ export default {
         { label: '批准编制文号', prop: 'o' },
         { label: '法人单位编码', prop: 'p' },
         { label: '单位主要工作职责', prop: 'r' },
-        { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
+        { label: '操作', type: 'operation', fixed: 'right', width: '160px' }
 
       ],
       tableData: []
@@ -326,6 +326,7 @@ export default {
   methods: {
     showDialog(type, row) {
       this.operation = type
+      this.$refs.detailDialog.queryCorpDetail('')
       if (type === 'detail' || type === 'edit') {
         this.getDetail(row.aab001)
         return
@@ -333,14 +334,16 @@ export default {
       this.isShowDetail = true
     },
     search() {
-      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, aae016: '0' })
       this.$search(queryCorpList, form)
     },
     getDetail(id) {
-      queryCorpDetail({ id: id }).then(res => {
-        this.detailInfo = Object.assign(res.data, { aab001: id })
-        this.isShowDetail = true
-      })
+      // queryCorpDetail({ id: id }).then(res => {
+      //   this.detailInfo = Object.assign(res.data, { aab001: id })
+      //   this.isShowDetail = true
+      // })
+      this.isShowDetail = true
+      this.$refs.detailDialog.queryCorpDetail(id)
     },
     pageChange(data) {
       this.pageInfo = data.pagination

@@ -24,7 +24,7 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
-import { handleConfirm, msgSuccess, msgError, saveAddministrativeDomain, serch, del, getType } from './utils/message'
+import { handleConfirm, msgSuccess, msgError, saveAddministrativeDomain, serch, del, getType, getTypeCodes } from './utils/message'
 
 // import vueSticky from './directive/sticky'
 /**
@@ -45,6 +45,7 @@ Vue.prototype.$save = saveAddministrativeDomain
 Vue.prototype.$search = serch
 Vue.prototype.$del = del
 Vue.prototype.$getType = getType
+Vue.prototype.$getTypeCodes = getTypeCodes
 
 Vue.prototype.$msgError = msgError
 

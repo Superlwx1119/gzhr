@@ -5,9 +5,11 @@
     :is-show="isDialogVisible"
     size="big"
     width="1200px"
+    :loading="loading"
     @update:isShow="isShow"
+    @resetForm="reset"
   >
-    <el-form ref="queryForm" :model="queryForm" label-width="105px" style="margin-bottom:10px">
+    <!-- <el-form ref="queryForm" :model="queryForm" label-width="105px" style="margin-bottom:10px">
       <el-row :gutter="12">
         <el-col :md="12" :lg="8" :xl="6">
           <el-form-item label="姓名" prop="姓名">
@@ -18,7 +20,7 @@
           <el-button type="primary">查询</el-button>
         </el-col>
       </el-row>
-    </el-form>
+    </el-form> -->
     <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
       <template slot="operation" slot-scope="{row}">
         <el-button type="text" @click="showAdd(row)">下一步</el-button>
@@ -31,11 +33,12 @@
       <el-button @click="closeDialog">关闭</el-button>
     </span>
     <!-- 下一步新增 -->
-    <AddForm v-model="isShowAdd" :detail-info="detailInfo" dialog-title="人员退休登记" />
+    <AddForm ref="addForm" v-model="isShowAdd" :operation="operation" dialog-title="人员退休登记" @cloeseParent="cloeseParent" />
   </form-dialog>
 </template>
 
 <script>
+import { canBeList } from '@/api/BaseInformation/PersonalInformationManagement/DimissionAudit'
 import AddForm from './edit'
 export default {
   components: {
@@ -60,7 +63,7 @@ export default {
     },
     operation: {
       type: String,
-      default: 'detail'
+      default: 'add'
     }
   },
   data() {
@@ -79,21 +82,17 @@ export default {
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '人员姓名', prop: 'aab069' },
-        { label: '身份证号码', prop: 'c' },
-        { label: '性别', prop: 'rb0195' },
-        { label: '出生日期', prop: 'aab022' },
+        { label: '人员姓名', prop: 'aac003' },
+        { label: '身份证号码', prop: 'aac002' },
+        { label: '性别', prop: 'aac004' },
+        { label: '出生日期', prop: 'aac006' },
         { label: '年龄(周岁)', prop: 'aab023' },
         { label: '现状态', prop: 'rb0705' },
-        { label: '参加工作时间', prop: 'i' },
-        { label: '进入本单位时间', prop: 'k' },
-        { label: '人员类别', prop: 'k' },
-        { label: '岗位等级', prop: 'k' },
-        { label: '学历', prop: 'k' },
-        { label: '学位', prop: 'k' },
+        { label: '参加工作时间', prop: 'aac007' },
+        { label: '进入本单位时间', prop: 'rc0301' },
         { label: '操作', type: 'operation', fixed: 'right', width: '120px' }
       ],
-      tableData: [1, 2, 3, 4, 5, 6, 7, 7]
+      tableData: []
     }
   },
   methods: {
@@ -101,11 +100,19 @@ export default {
       this.$emit('closeAll', false)
       this.reset()
     },
+    cloeseParent() {
+      this.closeDialog()
+      this.$emit('search')
+    },
+    canBeList() {
+      this.$search(canBeList)
+    },
     reset() {
       this.$refs.queryForm.resetFields()
     },
     showAdd(row) {
       this.isShowAdd = true
+      this.$refs.addForm.info(row)
     },
     pageChange(data) {
       this.pageInfo = data.pagination

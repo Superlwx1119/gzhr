@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import { queryPostSetup } from '@/api/JobsSettingManagement/index'
 import JobsPlan from '../dialog/jobsPlan'
 import FormItems from '@/views/components/PageLayers/form-items'
 import BusinessState from '@/components/Select/BusinessState'
@@ -55,10 +55,7 @@ export default {
     return {
       pageInfo: {
         pageNum: 1,
-        pageSize: 15,
-        total: 10,
-        startRow: 1,
-        endRow: 10
+        pageSize: 15
       },
       dialogTitle: '岗位设置新增',
       detailName: '',
@@ -95,7 +92,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    // this.search()
+    this.search()
   },
   mounted() {
   },
@@ -106,7 +103,7 @@ export default {
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
-      this.$search(list, form)
+      this.$search(queryPostSetup, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination

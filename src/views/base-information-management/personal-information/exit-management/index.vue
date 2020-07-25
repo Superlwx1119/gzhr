@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import { exitList } from '@/api/BaseInformation/PersonalInformationManagement/exit'
 import FormItems from '@/views/components/PageLayers/form-items'
 import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
@@ -125,7 +125,7 @@ export default {
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
-      this.$search(list, form)
+      this.$search(exitList, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination

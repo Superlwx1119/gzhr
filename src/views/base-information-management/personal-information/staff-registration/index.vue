@@ -1,17 +1,17 @@
 <template>
   <!--人员登记-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="7">
+    <normal-layer :search-number="5">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="单位">
-            <OrganizationName v-model="queryForm.单位" />
+            <OrganizationName v-model="queryForm.aab069" />
           </template>
           <template slot="进入方式">
-            <EnterType v-model="queryForm.进入方式" />
+            <EnterType v-model="queryForm.rc0206" />
           </template>
           <template slot="岗位等级">
-            <JobsLevel v-model="queryForm.岗位等级" />
+            <JobsLevel v-model="queryForm.rc0703" />
           </template>
           <template slot="单位级别">
             <OrganizationLevel v-model="queryForm.单位级别" />
@@ -47,7 +47,7 @@
           <template slot="operation" slot-scope="scope">
             <el-button type="text" @click="showDialog('edit',scope.row)">编辑</el-button>
             <el-button type="text">追踪</el-button>
-            <el-button type="text">申报</el-button>
+            <el-button type="text" @click="personApply(scope.row)">申报</el-button>
             <el-button type="text" class="delete" @click="deleteRow(scope.row)">删除</el-button>
           </template>
         </my-table-view>
@@ -57,12 +57,12 @@
     <!-- 编辑 -->
     <EditDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员信息编辑" />
     <!-- 新增登记 -->
-    <AddDialog v-model="isShowAdd" :detail-info="detailInfo" dialog-title="人员进入登记" />
+    <AddDialog ref="addForm" v-model="isShowAdd" :operation="operation" :detail-info="detailInfo" dialog-title="人员进入登记" @search="search" />
   </div>
 </template>
 
 <script>
-import { list, deletePerson } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import { list, deletePerson, personApply } from '@/api/BaseInformation/PersonalInformationManagement/index'
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import EditDialog from './dialog/edit'
@@ -91,34 +91,28 @@ export default {
       isShowDetail: false,
       isShowAdd: false,
       reportVisible: false,
-      operation: 'detail',
+      operation: 'add',
       itemsDatas: [
         // { label: '年度', prop: '年度1', type: 'dateYear' },
         { label: '单位', prop: '单位', type: 'custom' },
         { label: '姓名', prop: '姓名', type: 'input' },
         { label: '身份证号', prop: '身份证号', type: 'input' },
-        { label: '进入方式', prop: '进入方式', type: 'custom' },
-        { label: '岗位等级', prop: '岗位等级', type: 'custom' },
-        { label: '进入单位时间', prop: '进入单位时间', type: 'dateRange' },
-        { label: '附件状态', prop: '附件状态', type: 'custom' }
+        { label: '进入方式', prop: '进入方式', type: 'custom' }
+        // { label: '岗位等级', prop: '岗位等级', type: 'custom' },
+        // { label: '进入单位时间', prop: '进入单位时间', type: 'dateRange' },
+        // { label: '附件状态', prop: '附件状态', type: 'custom' }
       ],
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '入职附件', prop: 'aab001' },
-        { label: '审核状态', prop: 'aab069' },
-        { label: '单位名称', prop: 'c' },
-        { label: '姓名', prop: 'aab019' },
-        { label: '性别', prop: 'rb0195' },
-        { label: '身份证号码', prop: 'aab023' },
-        { label: '人员类型', prop: 'aab022' },
-        { label: '岗位等级', prop: 'rb0705' },
-        { label: '兼任的岗位等级', prop: 'i' },
-        { label: '进入方式', prop: 'k' },
-        { label: '进入单位时间', prop: 'l' },
-        { label: '最高学历', prop: 'm' },
-        { label: '现状态', prop: 'n' },
-        { label: '人员动态', prop: 'o' },
+        { label: '单位名称', prop: 'aab069' },
+        { label: '姓名', prop: 'aac003' },
+        { label: '性别', prop: 'aac004' },
+        { label: '身份证号码', prop: 'aac002' },
+        { label: '部门', prop: 'aab022' },
+        { label: '岗位等级', prop: 'rc0703' },
+        { label: '进入方式', prop: 'rc0206' },
+        { label: '审核状态', prop: 'flowStatus' },
         { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
 
       ],
@@ -134,15 +128,39 @@ export default {
   },
   methods: {
     showDialog(type, row) {
+      this.operation = type
       if (type === 'add') {
         this.isShowAdd = true
       } else {
+        if (row) {
+          this.$refs.addForm.personDetail(row)
+          this.isShowAdd = true
+          return
+        }
         this.isShowDetail = true
       }
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
       this.$search(list, form)
+    },
+    personApply(row) {
+      this.$msgConfirm('确认进入申报?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        personApply({ aac001: Number(row.aac001) }).then(res => {
+          if (res.code === 0) {
+            this.$msgSuccess(res.message)
+            this.search()
+          } else {
+            this.$msgError(res.message)
+          }
+        })
+      }).catch(() => {
+        this.$msgInfo('已取消')
+      })
     },
     pageChange(data) {
       this.pageInfo = data.pagination

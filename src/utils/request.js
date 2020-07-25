@@ -4,8 +4,10 @@ import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // create an axios instance
+const reqUrl = window.location.protocol + '//' + window.location.hostname + ':8083/gzhr/rs'
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  // baseURL: reqUrl, // url = base url + request url
+  baseURL: process.env.NODE_ENV === 'production' ? reqUrl : process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })

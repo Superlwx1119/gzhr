@@ -17,24 +17,24 @@ export default {
       component: () => import('@/views/base-information-management/organization-information/organization-information-search/index'),
       name: 'organizationInformationSearch',
       meta: { title: '单位信息查询', icon: 'spot' }
-    },
-    {
-      path: 'new-organization-audit',
-      component: () => import('@/views/base-information-management/organization-information/new-organization-audit/index'),
-      name: 'newOrganizationAudit',
-      meta: { title: '新增单位审核', icon: 'spot' }
-    },
+    }
+    // {
+    //   path: 'new-organization-audit',
+    //   component: () => import('@/views/base-information-management/organization-information/new-organization-audit/index'),
+    //   name: 'newOrganizationAudit',
+    //   meta: { title: '新增单位审核', icon: 'spot' }
+    // }
     // {
     //   path: 'edit-information-search',
     //   component: () => import('@/views/base-information-management/organization-information/edit-information-search/index'),
     //   name: 'EditInformationSearch',
     //   meta: { title: '修改审核查询', icon: 'spot' }
     // },
-    {
-      path: 'organization-information-change',
-      component: () => import('@/views/base-information-management/organization-information/organization-information-change/index'),
-      name: 'organizationInformationChange',
-      meta: { title: '单位信息变更记录', icon: 'spot' }
-    }
+    // {
+    //   path: 'organization-information-change',
+    //   component: () => import('@/views/base-information-management/organization-information/organization-information-change/index'),
+    //   name: 'organizationInformationChange',
+    //   meta: { title: '单位信息变更记录', icon: 'spot' }
+    // }
   ]
 }

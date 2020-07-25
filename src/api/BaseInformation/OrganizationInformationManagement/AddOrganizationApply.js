@@ -35,6 +35,17 @@ export function queryCorpList(query) {
     params: query
   })
 }
+/**
+ * 查询单位列表
+ * @param query
+ */
+export function queryCorpInfo(query) {
+  return request({
+    url: api.queryCorpInfo,
+    method: 'get',
+    params: query
+  })
+}
 
 /**
  * 查询单位信息详情

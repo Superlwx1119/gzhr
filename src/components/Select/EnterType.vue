@@ -7,8 +7,12 @@
     placeholder="请选择"
     @input="handleSelectChange($event)"
   >
-    <el-option v-for="(v, i) in options" :key="i" :label="v.name" :value="v.value" />
-  </el-select>
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.codeName"
+      :value="item.codeValue"
+    /></el-select>
 </template>
 
 <script>
@@ -29,11 +33,7 @@ export default {
   data() {
     return {
       currValue: this.value,
-      options: [
-        { name: '区外调入', value: 1 },
-        { name: '其他', value: 2 },
-        { name: '任命', value: 3 }
-      ]
+      options: []
     }
   },
   computed: {
@@ -47,6 +47,16 @@ export default {
     }
   },
   created() {
+    if (this.$store.state.dictionary.dictionary['A2911']) {
+      this.options = this.$store.state.dictionary.dictionary['A2911']
+      return
+    }
+    this.$getTypeCodes('A2911', (res) => {
+      this.options = res
+      const dictionary = {}
+      dictionary.A2911 = res
+      this.$store.dispatch('dictionary/setDictionary', dictionary)
+    })
   },
   mounted() {
   },

@@ -25,7 +25,7 @@
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
           <template slot="operation">
             <el-button type="text" @click="showDialog('detail')">详情</el-button>
-            <el-button type="text" @click="isShowTheDetail = true">编辑</el-button>
+            <el-button type="text" @click="showDialog('edit')">编辑</el-button>
             <el-button type="text" @click="isShowEdit = true">追踪</el-button>
             <el-button type="text" @click="isShowEdit = true">申报</el-button>
             <el-button type="text" class="delete" @click="isShowEdit = true">删除</el-button>
@@ -34,21 +34,21 @@
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <!-- 新增/详情 -->
-    <!-- <Add v-model="isShowAdd" :dialog-title="dialogTitle" /> -->
+    <!-- 新增/详情/编辑 -->
+    <SpecialJobs v-model="isShowAdd" :dialog-title="dialogTitle" />
   </div>
 </template>
 
 <script>
 import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
-// import Add from './dialog/add'
+import SpecialJobs from '../dialog/specialJobs'
 import FormItems from '@/views/components/PageLayers/form-items'
 import BusinessState from '@/components/Select/BusinessState'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'SpecialJobsApply',
-  components: { FormItems, NormalLayer, BusinessState },
+  components: { FormItems, NormalLayer, BusinessState, SpecialJobs },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -60,7 +60,7 @@ export default {
         startRow: 1,
         endRow: 10
       },
-      dialogTitle: '岗位设置新增',
+      dialogTitle: '特设岗位信息新增',
       detailName: '',
       detailInfo: {},
       loading: false,
@@ -122,9 +122,11 @@ export default {
     },
     showDialog(type) {
       if (type === 'add') {
-        this.dialogTitle = '岗位设置新增'
+        this.dialogTitle = '特设岗位信息新增'
+      } else if (type === 'edit') {
+        this.dialogTitle = '特设岗位信息编辑'
       } else {
-        this.dialogTitle = '岗位设置修改'
+        this.dialogTitle = '特设岗位信息详情'
       }
       this.isShowAdd = true
     },

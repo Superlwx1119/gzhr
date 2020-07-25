@@ -36,3 +36,14 @@ export function getOrgAreaSub(query) {
     params: query
   })
 }
+/**
+ * 查询code表
+ * @param query
+ */
+export function getCodeByTypeCodes(query) {
+  return request({
+    url: api.getCodeByTypeCodes,
+    method: 'get',
+    params: query
+  })
+}
