@@ -6,5 +6,8 @@ export default {
   //  查询单位信息
   queryCorpList: '/corp/queryCorpList',
   //  查询单位信息详情
-  queryCorpDetail: '/corp/queryCorpDetail'
+  queryCorpDetail: '/corp/queryCorpDetail',
+  //  查询单位变更记录
+  queryChangeCorpList: '/corp/queryChangeCorpList'
+
 }

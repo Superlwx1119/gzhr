@@ -404,10 +404,10 @@ export default {
   /deep/.el-checkbox-group .el-checkbox+.el-checkbox{
     margin-left: 0;
   }
-  .el-checkbox-group{
-    .el-checkbox__label{
-    }
+  // .el-checkbox-group{
+  //   .el-checkbox__label{
+  //   }
 
-  }
+  // }
 }
 </style>

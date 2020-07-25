@@ -3,12 +3,20 @@
   <el-cascader
     v-model="currValue"
     style="width: 100%"
-    :options="options"
+    :props="props"
     @input="handleSelectChange($event)"
   />
+  <!-- <el-select v-model="currValue" placeholder="请选择" @change="handleSelectChange">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.codeName"
+      :value="item.codeValue"
+    /></el-select> -->
 </template>
 
 <script>
+let id = 0
 export default {
   name: 'Relationship',
   components: {},
@@ -220,7 +228,23 @@ export default {
           value: 'jiaohu',
           label: '组件交互文档'
         }]
-      }]
+      }],
+      props: {
+        lazy: true,
+        lazyLoad(node, resolve) {
+          const { level } = node
+          setTimeout(() => {
+            const nodes = Array.from({ length: level + 1 })
+              .map(item => ({
+                value: ++id,
+                label: `选项${id}`,
+                leaf: level >= 2
+              }))
+              // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+            resolve(nodes)
+          }, 1000)
+        }
+      }
     }
   },
   computed: {
@@ -234,6 +258,16 @@ export default {
     }
   },
   created() {
+    // if (this.$store.state.dictionary.dictionary['aab021']) {
+    //   this.options = this.$store.state.dictionary.dictionary['aab021']
+    //   return
+    // }
+    // this.$getType('aab021', (res) => {
+    //   this.options = res
+    //   const dictionary = {}
+    //   dictionary.aab021 = res
+    //   this.$store.dispatch('dictionary/setDictionary', dictionary)
+    // })
   },
   mounted() {
   },

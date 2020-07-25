@@ -19,7 +19,9 @@
       </template>
       <div slot="table-title" class="box-header handle">
         <span class="box-title">合同管理列表</span>
-
+        <!-- <div slot="title-btns" class="box-tools">
+          <el-button type="primary" @click="signContract">新增</el-button>
+        </div> -->
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
@@ -28,7 +30,7 @@
             <el-button type="text" @click="goHistoricalContract(scope.row)">历史合同</el-button>
           </template>
         </my-table-view>
-        <Pagination :data="paginationQuery" />
+        <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
     <add-dialog v-model="showAddDialog" :dialog-title="dialogTitle" />
@@ -37,6 +39,7 @@
 </template>
 
 <script>
+import { getContractList } from '@/api/PersonelManagement/EmploymentContract/ContractManagement'
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import AddDialog from './add'
@@ -51,9 +54,17 @@ export default {
   props: {},
   data() {
     return {
+      loading: false,
       showAddDialog: false,
       showHistoricalContractDialog: false,
       dialogTitle: '',
+      pageInfo: {
+        pageNum: 1,
+        pageSize: 15,
+        total: 10,
+        startRow: 1,
+        endRow: 10
+      },
       itemsDatas: [
         { label: '单位', prop: '单位', type: 'custom' },
         { label: '姓名', prop: '姓名', type: 'input' },
@@ -100,8 +111,13 @@ export default {
       this.dialogTitle = '历史合同'
       this.showHistoricalContractDialog = true
     },
+    pageChange(data) {
+      this.pageInfo = data.pagination
+      this.search()
+    },
     search() {
-      // const form = Object.assign(this.queryForm, { pageNum: this.paginationQuery.pageNum, pageSize: this.paginationQuery.pageSize })
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+      this.$search(getContractList, form)
     },
     deleteRow(row) {
       this.$msgConfirm('确认删除?', '提示', {

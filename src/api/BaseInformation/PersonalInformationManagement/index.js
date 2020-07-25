@@ -6,7 +6,7 @@ import api from './API'
  */
 export function addPerson(query) {
   return request({
-    url: api.addPerson,
+    url: api.staffRegistration.addPerson,
     method: 'post',
     data: query
   })
@@ -30,7 +30,7 @@ export function modifyCorp(query) {
  */
 export function list(query) {
   return request({
-    url: api.list,
+    url: api.staffRegistration.list,
     method: 'get',
     params: query
   })
@@ -42,7 +42,7 @@ export function list(query) {
  */
 export function deletePerson(query) {
   return request({
-    url: api.deletePerson,
+    url: api.staffRegistration.deletePerson,
     method: 'delete',
     params: query
   })

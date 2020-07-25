@@ -2,9 +2,7 @@
   <div>
     <!-- 单位 -->
     <el-select v-model="selectValue" placeholder="请选择" filterable @change="handleSelectChange">
-      <el-option label="芦淞区" value="0" />
-      <el-option label="芦淞区组织部" value="1" />
-      <el-option label="芦淞区劳动保障局" value="2" />
+      <el-option v-for="(item,index) of options" :key="index" :label="item.codeName" :value="item.codeValue" />
     </el-select>
   </div>
 </template>
@@ -24,9 +22,9 @@ export default {
     return {
       selectValue: '',
       options: [
-        { label: '已提交申报数据', value: '1' },
-        { label: '已提交申报材料', value: '2' },
-        { label: '中心已受理', value: '3' }
+        // { label: '已提交申报数据', value: '1' },
+        // { label: '已提交申报材料', value: '2' },
+        // { label: '中心已受理', value: '3' }
       ]
     }
   },

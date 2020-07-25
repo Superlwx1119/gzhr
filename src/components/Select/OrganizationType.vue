@@ -5,8 +5,8 @@
       <el-option
         v-for="item in options"
         :key="item.value"
-        :label="item.label"
-        :value="item.value"
+        :label="item.codeName"
+        :value="item.codeValue"
       /></el-select>
   </div>
 </template>
@@ -38,6 +38,18 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    if (this.$store.state.dictionary.dictionary['aab019']) {
+      this.options = this.$store.state.dictionary.dictionary['aab019']
+      return
+    }
+    this.$getType('aab019', (res) => {
+      this.options = res
+      const dictionary = {}
+      dictionary.aab019 = res
+      this.$store.dispatch('dictionary/setDictionary', dictionary)
+    })
   },
   methods: {
     handleSelectChange(v) {

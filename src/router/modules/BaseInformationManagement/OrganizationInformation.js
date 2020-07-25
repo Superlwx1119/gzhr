@@ -24,12 +24,12 @@ export default {
       name: 'newOrganizationAudit',
       meta: { title: '新增单位审核', icon: 'spot' }
     },
-    {
-      path: 'edit-information-search',
-      component: () => import('@/views/base-information-management/organization-information/edit-information-search/index'),
-      name: 'EditInformationSearch',
-      meta: { title: '修改审核查询', icon: 'spot' }
-    },
+    // {
+    //   path: 'edit-information-search',
+    //   component: () => import('@/views/base-information-management/organization-information/edit-information-search/index'),
+    //   name: 'EditInformationSearch',
+    //   meta: { title: '修改审核查询', icon: 'spot' }
+    // },
     {
       path: 'organization-information-change',
       component: () => import('@/views/base-information-management/organization-information/organization-information-change/index'),

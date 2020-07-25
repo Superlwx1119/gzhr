@@ -6,11 +6,11 @@
           <el-input v-model="addForm.aab069" @input="handleSelectChange" />
         </el-form-item>
       </el-col>
-      <el-col :md="12" :lg="8" :xl="6">
+      <!-- <el-col :md="12" :lg="8" :xl="6">
         <el-form-item label="上级单位" prop="bab023">
           <OrganizationName v-model="addForm.bab023" @input="handleSelectChange" />
         </el-form-item>
-      </el-col>
+      </el-col> -->
       <el-col :md="12" :lg="8" :xl="6">
         <el-form-item label="单位类型" prop="aab019">
           <OrganizationType v-model="addForm.aab019" @input="handleSelectChange" />
@@ -68,7 +68,7 @@
           </el-col> -->
       <el-col :md="12" :lg="8" :xl="6">
         <el-form-item label="行政区划" prop="aab226">
-          <OrganizationName v-model="addForm.aab226" @input="handleSelectChange" />
+          <AdministrativeArea v-model="addForm.aab226" @input="handleSelectChange" />
         </el-form-item>
       </el-col>
       <!-- <el-col :md="12" :lg="8" :xl="6">
@@ -215,19 +215,21 @@
 </template>
 
 <script>
+import AdministrativeArea from '@/components/Select/AdministrativeArea'
 import OrganizationName from '@/components/Select/OrganizationName'
 import OrganizationType from '@/components/Select/OrganizationType'
 import SubordinateRelations from '@/components/Select/SubordinateRelations'
 import OrganizationLevel from '@/components/Select/OrganizationLevel'
-import FundSources from '@/components/Select/FundSources'
+// import FundSources from '@/components/Select/FundSources'
 import Industry from '@/components/Select/Industry'
 export default {
   components: {
+    AdministrativeArea,
     OrganizationName,
     OrganizationType,
     SubordinateRelations,
     OrganizationLevel,
-    FundSources,
+    // FundSources,
     Industry
   },
   props: {

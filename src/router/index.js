@@ -9,7 +9,10 @@ import Layout from '@/layout'
 /* Router Modules */
 import BaseInformationManagement from './modules/BaseInformationManagement/index' //  基础信息管理
 import PersonnelManagement from './modules/PersonnelManagement/index' //  人事管理
-import PersonnelAssignment from './modules/PersonnelAssignment/index' //  人事管理
+import JobsSettingManagement from './modules/JobsSettingManagement/index' //  岗位设置管理
+import JobsChangeManagement from './modules/JobsChangeManagement/index' //  岗位变动管理
+import EmploymentContractManagement from './modules/EmploymentContractManagement/index' //  聘用合同管理
+// import PersonnelAssignment from './modules/PersonnelAssignment/index' //  人事管理
 // import DirectoryBusinessAttributeInfo from './modules/DirectoryBusinessAttributeInfo/index' //  个人待遇管理
 // import PolicyParamManage from './modules/PolicyParamManage' //  政策参数管理
 // import FundCollectsManage from './modules/FundCollectsManage' //  基金征集管理
@@ -92,7 +95,10 @@ export const constantRoutes = [
   },
   BaseInformationManagement,
   PersonnelManagement,
-  PersonnelAssignment
+  JobsSettingManagement,
+  JobsChangeManagement,
+  EmploymentContractManagement
+  // PersonnelAssignment
 
   // DirectoryBusinessAttributeInfo,
   // PolicyParamManage,

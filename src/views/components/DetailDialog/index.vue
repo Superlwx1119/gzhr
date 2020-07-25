@@ -129,6 +129,13 @@ export default {
           modifyCorp(this.detailInfo).then(res => {
             this.loading = false
             console.log(res)
+            if (res.code === 0) {
+              this.$emit('search')
+              this.closeDialog()
+              this.$msgSuccess(res.message)
+            } else {
+              this.$msgError(res.message)
+            }
           })
         } else {
           console.log('error submit!!')
@@ -142,7 +149,14 @@ export default {
           this.addForm.aab021 = this.addForm.aab021[this.addForm.aab021.length - 1]
           this.addForm.rb0174 = this.addForm.rb0174[this.addForm.rb0174.length - 1]
           addCorp(this.addForm).then(res => {
-            console.log(res)
+            // console.log(res)
+            if (res.code === 0) {
+              this.closeDialog()
+              this.$msgSuccess(res.message)
+              this.$emit('search')
+            } else {
+              this.$$msgError(res.message)
+            }
           })
         } else {
           console.log('error submit!!')
