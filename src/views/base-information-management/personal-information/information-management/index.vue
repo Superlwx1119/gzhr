@@ -38,10 +38,7 @@
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
           <template slot="operation" slot-scope="scope">
-            <el-button type="text" @click="showDialog('edit',scope.row)">编辑</el-button>
-            <el-button type="text">追踪</el-button>
-            <el-button type="text">申报</el-button>
-            <el-button type="text" class="delete" @click="deleteRow(scope.row)">删除</el-button>
+            <el-button type="text" @click="showDialog('delete',scope.row)">详情</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
@@ -50,7 +47,7 @@
     <!-- 编辑 -->
     <EditDialog v-model="isShowDetail" :detail-info="detailInfo" :operation="operation" dialog-title="人员信息编辑" />
     <!-- 新增登记 -->
-    <AddDialog v-model="isShowAdd" :detail-info="detailInfo" dialog-title="人员进入登记" />
+    <AddDialog ref="add" v-model="isShowAdd" :detail-info="detailInfo" dialog-title="人员信息详情" />
   </div>
 </template>
 
@@ -98,21 +95,16 @@ export default {
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '入职附件', prop: 'aab001' },
-        { label: '审核状态', prop: 'aab069' },
-        { label: '单位名称', prop: 'c' },
-        { label: '姓名', prop: 'aab019' },
-        { label: '性别', prop: 'rb0195' },
-        { label: '身份证号码', prop: 'aab023' },
-        { label: '人员类型', prop: 'aab022' },
-        { label: '岗位等级', prop: 'rb0705' },
-        { label: '兼任的岗位等级', prop: 'i' },
-        { label: '进入方式', prop: 'k' },
-        { label: '进入单位时间', prop: 'l' },
-        { label: '最高学历', prop: 'm' },
-        { label: '现状态', prop: 'n' },
-        { label: '人员动态', prop: 'o' },
-        { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
+        { label: '单位名称', prop: 'aab069' },
+        { label: '姓名', prop: 'aac003' },
+        { label: '部门', prop: 'aab022' },
+        { label: '性别', prop: 'aac004' },
+        { label: '身份证号码', prop: 'aac002' },
+        { label: '人员类型', prop: 'rc0215' },
+        { label: '岗位等级', prop: 'rc0703' },
+        { label: '进入方式', prop: 'rc0206' },
+        { label: '状态位', prop: 'flowStatus' },
+        { label: '操作', type: 'operation', fixed: 'right', width: '120px' }
 
       ],
       tableData: []
@@ -127,11 +119,8 @@ export default {
   },
   methods: {
     showDialog(type, row) {
-      if (type === 'add') {
-        this.isShowAdd = true
-      } else {
-        this.isShowDetail = true
-      }
+      this.isShowAdd = true
+      this.$refs.add.personDetail(row)
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })

@@ -98,8 +98,8 @@ export const constantRoutes = [
   PersonnelManagement,
   JobsSettingManagement,
   JobsChangeManagement,
-  EmploymentContractManagement,
-  OpenRecruitmentManagement
+  OpenRecruitmentManagement,
+  EmploymentContractManagement
   // PersonnelAssignment
 
   // DirectoryBusinessAttributeInfo,

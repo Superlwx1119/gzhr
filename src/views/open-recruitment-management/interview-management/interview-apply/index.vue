@@ -1,7 +1,7 @@
 <template>
-  <!--转正管理-->
+  <!--面试申报-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="6">
+    <normal-layer :search-number="3">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <div style="text-align: right">
@@ -11,9 +11,9 @@
         </FormItems>
       </template>
       <div slot="table-title" class="box-header handle">
-        <span class="box-title">转正管理列表</span>
+        <span class="box-title">面试申报列表</span>
         <div slot="title-btns" class="box-tools">
-          <el-button type="primary">打印转正人员名册</el-button>
+          <el-button type="primary" @click="isShowDetail = true">新增</el-button>
         </div>
       </div>
       <template>
@@ -28,6 +28,8 @@
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
+    <Choose v-model="isShowDetail" @showAdd="isShowAdd = true" />
+    <Add v-model="isShowAdd" />
   </div>
 </template>
 
@@ -36,19 +38,18 @@ import { list, deletePerson } from '@/api/BaseInformation/PersonalInformationMan
 import FormItems from '@/views/components/PageLayers/form-items'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
+import Choose from '../dialog/choose'
+import Add from '../dialog/add'
 export default {
-  name: 'PositiveManagement',
-  components: { FormItems, NormalLayer },
+  name: 'InterviewApply',
+  components: { FormItems, NormalLayer, Choose, Add },
   mixins: [pageHandle],
   props: {},
   data() {
     return {
       pageInfo: {
         pageNum: 1,
-        pageSize: 15,
-        total: 10,
-        startRow: 1,
-        endRow: 10
+        pageSize: 15
       },
       detailInfo: {},
       loading: false,
@@ -57,23 +58,25 @@ export default {
       reportVisible: false,
       operation: 'detail',
       itemsDatas: [
-        // { label: '年度', prop: '年度1', type: 'dateYear' },
-        { label: '姓名', prop: '姓名', type: 'input' },
-        { label: '身份证号', prop: '身份证号', type: 'input' },
-        { label: '在职状态', prop: '在职状态', type: 'select', options: [{ label: '试用', value: '0' }, { label: '正式', value: '1' }] }
+        { label: '单位名称', prop: '单位名称', type: 'custom' },
+        { label: '年度', prop: '年度', type: 'dateYear' },
+        { label: '状态', prop: '状态', type: 'select' }
       ],
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '审核状态', prop: 'aab069' },
+        { label: '面试方案名称', prop: 'aab069' },
         { label: '单位名称', prop: 'c' },
-        { label: '姓名', prop: 'aab019' },
-        { label: '性别', prop: 'rb0195' },
-        { label: '身份证号码', prop: 'aab023' },
-        { label: '进入现单位时间', prop: 'aab022' },
-        { label: '试用期(月)', prop: 'rb0705' },
-        { label: '最高学历', prop: 'i' },
-        { label: '在职状态', prop: 'k' },
+        { label: '主管部门', prop: 'aab019' },
+        { label: '关联公开招聘计划名称', prop: 'rb0195' },
+        { label: '拟招聘管理人数', prop: 'aab023' },
+        { label: '拟招聘专技人数', prop: 'aab022' },
+        { label: '拟招聘工勤人数', prop: 'rb0705' },
+        { label: '状态', prop: 'i' },
+        { label: '经办日期', prop: 'k' },
+        { label: '结办日期', prop: 'k' },
+        { label: '结办人', prop: 'k' },
+        { label: '状态位', prop: 'k' },
         { label: '操作', type: 'operation', fixed: 'right', width: '200px' }
       ],
       tableData: []

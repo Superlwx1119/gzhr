@@ -200,12 +200,15 @@
               </el-form-item>
             </el-col>
           </el-col> -->
+
           </el-col></el-row>
-        <el-col :span="24">
-          <el-form-item label="备注" prop="rc0307">
-            <el-input v-model="addForm.rc0307" type="textarea" :rows="4" @input="handleSelectChange" />
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="备注" prop="rc0307">
+              <el-input v-model="addForm.rc0307" type="textarea" :rows="4" @input="handleSelectChange" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div class="box-header handle">
         <span class="box-title">业务材料</span>

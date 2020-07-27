@@ -44,7 +44,7 @@ export default {
     // 新增人员退出信息
     addExit: '/person/exit',
     // 修改人员退出信息
-    changeExit: '/person/exit',
+    changeExit: '/person/exit/modifyExitPersonInfo',
     // 删除人员退出信息
     deleteExit: '/person/exit',
     // 人员退出申报
@@ -55,6 +55,8 @@ export default {
     infoExit: '/person/exit/info',
     // 人员退出待审核列表
     exitList: '/person/exit/list',
+    // 查询可退出人员列表
+    canExitPersonsList: '/person/exit/canExitPersonsList',
     // 待审核人员退出列表
     querypendinglist: '/person/exit/querypendinglist'
   }

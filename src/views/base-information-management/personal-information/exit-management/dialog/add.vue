@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { canBeList } from '@/api/BaseInformation/PersonalInformationManagement/DimissionAudit'
+import { canExitPersonsList } from '@/api/BaseInformation/PersonalInformationManagement/exit'
 import AddForm from './edit'
 export default {
   components: {
@@ -104,15 +104,15 @@ export default {
       this.closeDialog()
       this.$emit('search')
     },
-    canBeList() {
-      this.$search(canBeList)
+    canExitPersonsList() {
+      this.$search(canExitPersonsList)
     },
     reset() {
       // this.$refs.queryForm.resetFields()
     },
     showAdd(row) {
       this.isShowAdd = true
-      this.$refs.addForm.info(row)
+      this.$refs.addForm.infoExit(row)
     },
     pageChange(data) {
       this.pageInfo = data.pagination

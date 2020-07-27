@@ -15,36 +15,32 @@
       </template>
       <div slot="table-title" class="box-header handle">
         <span class="box-title">岗位设置方案审核列表</span>
-        <div slot="title-btns" class="box-tools">
-          <el-button type="primary" @click="showDialog('add')">新增</el-button>
-          <!-- <el-button type="primary">申报</el-button> -->
-          <!-- <el-button type="danger">删除</el-button> -->
-        </div>
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
           <template slot="operation">
             <el-button type="text" @click="isShowEdit = true">追踪</el-button>
+            <el-button type="text" @click="showDialog('audit',row)">审核</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
-    <!-- 新增/详情 -->
-    <!-- <Add v-model="isShowAdd" :dialog-title="dialogTitle" /> -->
+    <!-- 审核 -->
+    <JobsPlan ref="audit" v-model="isShowAdd" :dialog-title="dialogTitle" @search="search" />
   </div>
 </template>
 
 <script>
-import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
-// import Add from './dialog/add'
+import { queryPostSetup } from '@/api/JobsSettingManagement/index'
+import JobsPlan from '../dialog/jobsPlan'
 import FormItems from '@/views/components/PageLayers/form-items'
 import BusinessState from '@/components/Select/BusinessState'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'JobsPlanAudit',
-  components: { FormItems, NormalLayer, BusinessState },
+  components: { FormItems, NormalLayer, BusinessState, JobsPlan },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -102,17 +98,19 @@ export default {
     },
     search() {
       const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
-      this.$search(list, form)
+      this.$search(queryPostSetup, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination
       this.search()
     },
-    showDialog(type) {
-      if (type === 'add') {
-        this.dialogTitle = '岗位设置新增'
+    showDialog(type, row) {
+      if (type === 'audit') {
+        this.dialogTitle = '岗位设置审核'
+        this.$refs.audit.editPostSetup(row)
+        this.$refs.audit.addPostSetup(row)
       } else {
-        this.dialogTitle = '岗位设置修改'
+        this.dialogTitle = '岗位设置详情'
       }
       this.isShowAdd = true
     },

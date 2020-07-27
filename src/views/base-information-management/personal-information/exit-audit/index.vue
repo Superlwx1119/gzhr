@@ -54,9 +54,9 @@ import OrganizationName from '@/components/Select/OrganizationName'
 import JobsLevel from '@/components/Select/JobsLevel'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
-import EditDialog from '../dimission-management/dialog/edit'
-import AddDialog from '../dimission-management/dialog/add'
-import DetailDialog from '../dimission-management/dialog/detail'
+import EditDialog from '../exit-management/dialog/edit'
+import AddDialog from '../exit-management/dialog/add'
+import DetailDialog from '../exit-management/dialog/detail'
 import TheDetail from '../component/index'
 export default {
   name: 'ExitManagement',

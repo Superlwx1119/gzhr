@@ -1,11 +1,14 @@
 <template>
   <!--岗位设置方案申报-->
   <div class="specialPersonBonusVerification">
-    <normal-layer :search-number="7">
+    <normal-layer :search-number="3">
       <template slot="search-header">
         <FormItems :items-datas="itemsDatas" :form-datas="queryForm">
           <template slot="业务状态">
             <BusinessState v-model="queryForm.业务状态" />
+          </template>
+          <template slot="单位名称">
+            <OrganizationName v-model="queryForm.aab069" @input="function(){return handleSelectChange(queryForm.aab069,'aab069')}" />
           </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
@@ -23,32 +26,34 @@
       </div>
       <template>
         <my-table-view v-loading="loading" :border="true" :max-cloumns="20" :columns="columns" :data="tableData">
-          <template slot="operation">
-            <el-button type="text" @click="showDialog('detail')">详情</el-button>
-            <el-button type="text" @click="isShowTheDetail = true">编辑</el-button>
+          <template slot="operation" slot-scope="{row}">
+            <el-button type="text" @click="showDialog('detail',row)">详情</el-button>
+            <el-button type="text" @click="showDialog('edit',row)">编辑</el-button>
             <el-button type="text" @click="isShowEdit = true">追踪</el-button>
             <el-button type="text" @click="isShowEdit = true">申报</el-button>
-            <el-button type="text" class="delete" @click="isShowEdit = true">删除</el-button>
+            <el-button type="text" class="delete" @click="deleteRow(row)">删除</el-button>
           </template>
         </my-table-view>
         <Pagination :data="pageInfo" @refresh="pageChange" />
       </template>
     </normal-layer>
     <!-- 新增/详情 -->
-    <JobsPlan v-model="isShowAdd" :dialog-title="dialogTitle" />
+    <JobsPlan ref="apply" v-model="isShowAdd" :dialog-title="dialogTitle" @search="search" />
   </div>
 </template>
 
 <script>
-import { queryPostSetup } from '@/api/JobsSettingManagement/index'
+import { queryPostSetup, delPostSetup } from '@/api/JobsSettingManagement/index'
 import JobsPlan from '../dialog/jobsPlan'
 import FormItems from '@/views/components/PageLayers/form-items'
 import BusinessState from '@/components/Select/BusinessState'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
+import OrganizationName from '@/components/Select/OrganizationName'
+
 export default {
   name: 'JobsPlanApply',
-  components: { FormItems, NormalLayer, BusinessState, JobsPlan },
+  components: { FormItems, NormalLayer, BusinessState, JobsPlan, OrganizationName },
   mixins: [pageHandle],
   props: {},
   data() {
@@ -69,7 +74,7 @@ export default {
       operation: 'detail',
       itemsDatas: [
         // { label: '年度', prop: '年度1', type: 'dateYear' },
-        { label: '单位名称', prop: '单位名称', type: 'input' },
+        { label: '单位名称', prop: '单位名称', type: 'custom' },
         { label: '经办时间', prop: '经办时间', type: 'date' },
         { label: '业务状态', prop: '业务状态', type: 'custom' }
       ],
@@ -86,7 +91,7 @@ export default {
         { label: '经办时间', prop: 'i' },
         { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
       ],
-      tableData: [{ aab019: '张三', aab022: '12312312313' }]
+      tableData: []
     }
   },
   computed: {},
@@ -102,20 +107,24 @@ export default {
       this.isShowDetail = true
     },
     search() {
-      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, workflowNode: 1 })
       this.$search(queryPostSetup, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination
       this.search()
     },
-    showDialog(type) {
+    showDialog(type, row) {
+      this.isShowAdd = true
       if (type === 'add') {
         this.dialogTitle = '岗位设置新增'
-      } else {
+      } else if (type === 'edit') {
         this.dialogTitle = '岗位设置修改'
+        this.$refs.apply.editPostSetup(row)
+      } else {
+        this.dialogTitle = '岗位设置详情'
       }
-      this.isShowAdd = true
+      this.$refs.apply.addPostSetup(row)
     },
     deleteRow(row) {
       this.$msgConfirm('确认删除?', '提示', {
@@ -123,7 +132,14 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$msgSuccess('删除成功')
+        this.loading = true
+        delPostSetup({ arb211s: row.arb211 }).then(res => {
+          this.loading = false
+          this.search()
+          this.$msgSuccess(res.message)
+        }).catch(() => {
+          this.loading = false
+        })
       }).catch(() => {
         this.$msgInfo('已取消删除')
       })
