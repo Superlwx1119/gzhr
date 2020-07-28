@@ -7,6 +7,9 @@
           <template slot="业务状态">
             <BusinessState v-model="queryForm.业务状态" />
           </template>
+          <template slot="单位名称">
+            <OrganizationName v-model="queryForm.aab069" @input="function(){return handleSelectChange(queryForm.aab069,'aab069')}" />
+          </template>
           <div style="text-align: right">
             <el-button @click="reset('queryForm')">重置</el-button>
             <el-button type="primary" @click="search('queryForm')">查询</el-button>
@@ -35,32 +38,30 @@
       </template>
     </normal-layer>
     <!-- 新增/详情 -->
-    <JobsHire v-model="isShowAdd" :dialog-title="dialogTitle" />
+    <JobsHire ref="add" v-model="isShowAdd" :dialog-title="dialogTitle" />
   </div>
 </template>
 
 <script>
-import { list } from '@/api/BaseInformation/PersonalInformationManagement/index'
+import { querydeclarelist } from '@/api/JobsSettingManagement/hire'
 import JobsHire from '../dialog/jobsHire'
 import FormItems from '@/views/components/PageLayers/form-items'
 import BusinessState from '@/components/Select/BusinessState'
+import OrganizationName from '@/components/Select/OrganizationName'
 import NormalLayer from '@/views/components/PageLayers/normalLayer'
 import pageHandle from '@/mixins/pageHandle'
 export default {
   name: 'JobsHireApply',
-  components: { FormItems, NormalLayer, BusinessState, JobsHire },
+  components: { FormItems, NormalLayer, BusinessState, JobsHire, OrganizationName },
   mixins: [pageHandle],
   props: {},
   data() {
     return {
       pageInfo: {
         pageNum: 1,
-        pageSize: 15,
-        total: 10,
-        startRow: 1,
-        endRow: 10
+        pageSize: 15
       },
-      dialogTitle: '岗位设置新增',
+      dialogTitle: '岗位首次聘用新增',
       detailName: '',
       detailInfo: {},
       loading: false,
@@ -72,7 +73,7 @@ export default {
       operation: 'detail',
       itemsDatas: [
         // { label: '年度', prop: '年度1', type: 'dateYear' },
-        { label: '单位名称', prop: '单位名称', type: 'input' },
+        { label: '单位名称', prop: '单位名称', type: 'custom' },
         { label: '经办时间', prop: '经办时间', type: 'date' },
         { label: '业务状态', prop: '业务状态', type: 'custom' }
       ],
@@ -80,7 +81,7 @@ export default {
         { type: 'selection' },
         { type: 'index', label: '序号' },
         { label: '单位名称', prop: 'aab069' },
-        { label: '岗位设置序号', prop: 'c' },
+        { label: '岗位首次聘用序号', prop: 'c' },
         { label: '主管部门', prop: 'aab019' },
         { label: '单位编制数', prop: 'rb0195' },
         { label: '管理岗位', prop: 'aab022' },
@@ -98,7 +99,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    // this.search()
+    this.search()
   },
   mounted() {
   },
@@ -108,8 +109,8 @@ export default {
       this.isShowDetail = true
     },
     search() {
-      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
-      this.$search(list, form)
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, workflowNode: 1 })
+      this.$search(querydeclarelist, form)
     },
     pageChange(data) {
       this.pageInfo = data.pagination
@@ -117,9 +118,10 @@ export default {
     },
     showDialog(type) {
       if (type === 'add') {
-        this.dialogTitle = '岗位设置新增'
+        this.dialogTitle = '岗位首次聘用新增'
+        this.$refs.add.addPostFlow()
       } else {
-        this.dialogTitle = '岗位设置修改'
+        this.dialogTitle = '岗位首次聘用修改'
       }
       this.isShowAdd = true
     },
@@ -133,6 +135,9 @@ export default {
       }).catch(() => {
         this.$msgInfo('已取消删除')
       })
+    },
+    handleSelectChange(v, type) {
+
     },
     handleSave() {
       this.$msgSuccess('保存成功！')

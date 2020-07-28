@@ -16,18 +16,18 @@
     </my-table-view>
     <Pagination :data="pageInfo" @refresh="pageChange" />
 
-    <span slot="footer" class="dialog-footer">
+    <!-- <span slot="footer" class="dialog-footer">
       <el-button type="primary">保存</el-button>
       <el-button @click="closeDialog">关闭</el-button>
-    </span>
+    </span> -->
     <!-- 下一步新增 -->
-    <AddForm ref="addForm" v-model="isShowAdd" :operation="operation" dialog-title="人员退休登记" @cloeseParent="cloeseParent" />
+    <AddForm ref="addForm" v-model="isShowAddForm" :operation="operation" dialog-title="岗位首次聘用新增" @cloeseParent="cloeseParent" />
   </form-dialog>
 </template>
 
 <script>
-import { canBeList } from '@/api/BaseInformation/PersonalInformationManagement/DimissionAudit'
-import AddForm from './edit'
+import { queryPostPerson } from '@/api/JobsSettingManagement/hire'
+import AddForm from './addInformation'
 export default {
   components: {
     AddForm
@@ -48,36 +48,31 @@ export default {
     isDialogVisible: {
       type: Boolean,
       default: false
-    },
-    operation: {
-      type: String,
-      default: 'add'
     }
   },
   data() {
     return {
+      operation: 'add',
       queryForm: {},
       activeName: '1',
-      isShowAdd: false,
+      isShowAddForm: false,
       loading: false,
       pageInfo: {
         pageNum: 1,
-        pageSize: 15,
-        total: 10,
-        startRow: 1,
-        endRow: 10
+        pageSize: 15
       },
       columns: [
         { type: 'selection' },
         { type: 'index', label: '序号' },
-        { label: '人员姓名', prop: 'aac003' },
+        { label: '姓名', prop: 'aac003' },
         { label: '身份证号码', prop: 'aac002' },
+        { label: '学位及学历', prop: 'aac006' },
         { label: '性别', prop: 'aac004' },
-        { label: '出生日期', prop: 'aac006' },
-        { label: '年龄(周岁)', prop: 'aab023' },
-        { label: '现状态', prop: 'rb0705' },
-        { label: '参加工作时间', prop: 'aac007' },
-        { label: '进入本单位时间', prop: 'rc0301' },
+        { label: '现聘职务', prop: 'aab023' },
+        { label: '职称、技术等级或职业资格名称', prop: 'rb0705' },
+        { label: '职称、技术等级或职业资格获得时间', prop: 'aac007' },
+        { label: '现聘岗位类别', prop: 'rc0301' },
+        { label: '现岗位名称及等级', prop: 'rc0301' },
         { label: '操作', type: 'operation', fixed: 'right', width: '120px' }
       ],
       tableData: []
@@ -92,14 +87,20 @@ export default {
       this.closeDialog()
       this.$emit('search')
     },
-    canBeList() {
-      this.$search(canBeList)
+    queryPostPerson(arb261) {
+      const form = {
+        aab001: 1282,
+        arb261: arb261,
+        pageNum: this.pageInfo.pageNum,
+        pageSize: this.pageInfo.pageSize
+      }
+      this.$search(queryPostPerson, form)
     },
     reset() {
       // this.$refs.queryForm.resetFields()
     },
     showAdd(row) {
-      this.isShowAdd = true
+      this.isShowAddForm = true
       this.$refs.addForm.info(row)
     },
     pageChange(data) {

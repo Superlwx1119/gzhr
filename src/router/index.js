@@ -13,6 +13,7 @@ import JobsSettingManagement from './modules/JobsSettingManagement/index' //  �
 import JobsChangeManagement from './modules/JobsChangeManagement/index' //  岗位变动管理
 import EmploymentContractManagement from './modules/EmploymentContractManagement/index' //  聘用合同管理
 import OpenRecruitmentManagement from './modules/OpenRecruitmentManagement/index' //  公开招聘管理
+import AvoidManagement from './modules/AvoidManagement/index' //  回避管理
 // import PersonnelAssignment from './modules/PersonnelAssignment/index' //  人事管理
 // import DirectoryBusinessAttributeInfo from './modules/DirectoryBusinessAttributeInfo/index' //  个人待遇管理
 // import PolicyParamManage from './modules/PolicyParamManage' //  政策参数管理
@@ -99,7 +100,8 @@ export const constantRoutes = [
   JobsSettingManagement,
   JobsChangeManagement,
   OpenRecruitmentManagement,
-  EmploymentContractManagement
+  EmploymentContractManagement,
+  AvoidManagement
   // PersonnelAssignment
 
   // DirectoryBusinessAttributeInfo,

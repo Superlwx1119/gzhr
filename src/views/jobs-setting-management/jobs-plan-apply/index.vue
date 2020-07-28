@@ -7,7 +7,7 @@
           <template slot="业务状态">
             <BusinessState v-model="queryForm.业务状态" />
           </template>
-          <template slot="单位名称">
+          <template slot="aab069">
             <OrganizationName v-model="queryForm.aab069" @input="function(){return handleSelectChange(queryForm.aab069,'aab069')}" />
           </template>
           <div style="text-align: right">
@@ -74,7 +74,7 @@ export default {
       operation: 'detail',
       itemsDatas: [
         // { label: '年度', prop: '年度1', type: 'dateYear' },
-        { label: '单位名称', prop: '单位名称', type: 'custom' },
+        { label: '单位名称', prop: 'aab069', type: 'custom', slotName: 'aab069' },
         { label: '经办时间', prop: '经办时间', type: 'date' },
         { label: '业务状态', prop: '业务状态', type: 'custom' }
       ],
@@ -82,12 +82,12 @@ export default {
         { type: 'selection' },
         { type: 'index', label: '序号' },
         { label: '单位名称', prop: 'aab069' },
-        { label: '岗位设置序号', prop: 'c' },
-        { label: '主管部门', prop: 'aab019' },
-        { label: '单位编制数', prop: 'rb0195' },
-        { label: '管理岗位', prop: 'aab022' },
-        { label: '专业技术岗位', prop: 'aab023' },
-        { label: '工勤技能岗位', prop: 'rb0705' },
+        { label: '岗位设置序号', prop: 'crb2104' },
+        { label: '主管部门', prop: 'aab023' },
+        { label: '单位编制数', prop: 'rb0181' },
+        { label: '管理岗位', prop: 'brb208' },
+        { label: '专业技术岗位', prop: 'brb209' },
+        { label: '工勤技能岗位', prop: 'brb210' },
         { label: '经办时间', prop: 'i' },
         { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
       ],
@@ -118,13 +118,13 @@ export default {
       this.isShowAdd = true
       if (type === 'add') {
         this.dialogTitle = '岗位设置新增'
+        this.$refs.apply.addPostSetup(row)
       } else if (type === 'edit') {
         this.dialogTitle = '岗位设置修改'
         this.$refs.apply.editPostSetup(row)
       } else {
         this.dialogTitle = '岗位设置详情'
       }
-      this.$refs.apply.addPostSetup(row)
     },
     deleteRow(row) {
       this.$msgConfirm('确认删除?', '提示', {

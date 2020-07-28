@@ -72,14 +72,14 @@ export default {
         { type: 'selection' },
         { type: 'index', label: '序号' },
         { label: '单位名称', prop: 'aab069' },
-        { label: '岗位设置序号', prop: 'c' },
-        { label: '主管部门', prop: 'aab019' },
-        { label: '单位编制数', prop: 'rb0195' },
-        { label: '管理岗位', prop: 'aab022' },
-        { label: '专业技术岗位', prop: 'aab023' },
-        { label: '工勤技能岗位', prop: 'rb0705' },
+        { label: '岗位设置序号', prop: 'crb2104' },
+        { label: '主管部门', prop: 'aab023' },
+        { label: '单位编制数', prop: 'rb0181' },
+        { label: '管理岗位', prop: 'brb208' },
+        { label: '专业技术岗位', prop: 'brb209' },
+        { label: '工勤技能岗位', prop: 'brb210' },
         { label: '经办时间', prop: 'i' },
-        { label: '操作', type: 'operation', fixed: 'right', width: '100px' }
+        { label: '操作', type: 'operation', fixed: 'right', width: '250px' }
       ],
       tableData: [{ aab019: '张三', aab022: '12312312313' }]
     }
@@ -87,7 +87,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    // this.search()
+    this.search()
   },
   mounted() {
   },
@@ -97,7 +97,7 @@ export default {
       this.isShowDetail = true
     },
     search() {
-      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize })
+      const form = Object.assign(this.queryForm, { pageNum: this.pageInfo.pageNum, pageSize: this.pageInfo.pageSize, workflowNode: 2 })
       this.$search(queryPostSetup, form)
     },
     pageChange(data) {

@@ -6,5 +6,11 @@ export default {
   //  行政区划级联
   getOrgAreaSub: 'in ./Request.js',
   //  查询code表
-  getCodeByTypeCodes: '/corp/getCodeByTypeCodes'
+  getCodeByTypeCodes: '/corp/getCodeByTypeCodes',
+  // 流程申报
+  apply: '/workflow/apply',
+  // 流程审核
+  audit: '/workflow/audit',
+  // 启动流程
+  startprocess: '/workflow/startprocess'
 }

@@ -6,7 +6,7 @@ import api from './Api'
  */
 export function queryPostSetup(query) {
   return request({
-    url: api.queryPostSetup,
+    url: api.setting.queryPostSetup,
     method: 'post',
     data: query
   })
@@ -17,7 +17,7 @@ export function queryPostSetup(query) {
  */
 export function addPostSetup(query) {
   return request({
-    url: api.addPostSetup,
+    url: api.setting.addPostSetup,
     method: 'put',
     params: query
   })
@@ -28,7 +28,7 @@ export function addPostSetup(query) {
  */
 export function checkPostSetup(query) {
   return request({
-    url: api.checkPostSetup,
+    url: api.setting.checkPostSetup,
     method: 'post',
     data: query
   })
@@ -39,7 +39,7 @@ export function checkPostSetup(query) {
  */
 export function applyPostSetup(query) {
   return request({
-    url: api.applyPostSetup,
+    url: api.setting.applyPostSetup,
     method: 'put',
     data: query
   })
@@ -50,7 +50,7 @@ export function applyPostSetup(query) {
  */
 export function addPostFlow(query) {
   return request({
-    url: api.addPostFlow,
+    url: api.setting.addPostFlow,
     method: 'put',
     data: query
   })
@@ -61,7 +61,7 @@ export function addPostFlow(query) {
  */
 export function savePostSetup(query) {
   return request({
-    url: api.savePostSetup,
+    url: api.setting.savePostSetup,
     method: 'post',
     data: query
   })
@@ -72,7 +72,7 @@ export function savePostSetup(query) {
  */
 export function delPostSetup(query) {
   return request({
-    url: api.delPostSetup,
+    url: api.setting.delPostSetup,
     method: 'delete',
     params: query
   })
@@ -83,8 +83,8 @@ export function delPostSetup(query) {
  */
 export function editPostSetup(query) {
   return request({
-    url: api.editPostSetup,
-    method: 'delete',
+    url: api.setting.editPostSetup,
+    method: 'put',
     params: query
   })
 }

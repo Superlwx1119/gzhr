@@ -1,4 +1,3 @@
-<!-- 新增合同签订-->
 <template>
   <form-dialog
     :title="dialogTitle"
@@ -12,6 +11,9 @@
         <template slot="签订状态">
           <ContractSigningStatus v-model="dataForm.签订状态" />
         </template>
+        <template slot="单位名称">
+          <OrganizationName v-model="dataForm.单位名称" />
+        </template>
       </form-items>
     </div>
     <div class="box" style="height: auto">
@@ -19,7 +21,7 @@
         <el-button type="primary">上传</el-button>
         <el-button type="danger">批量删除</el-button>
       </box-title>
-      <List :is-border="true" :is-index="true" :columns="columns" is-selection="true" :operates="tableOperates" :data="tableData" />
+      <List :is-border="true" :is-index="true" :columns="columns" :operates="tableOperates" :data="tableData" />
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">关闭</el-button>
@@ -31,13 +33,15 @@
 import BoxTitle from '@/views/components/PageLayers/box-title'
 import FormItems from '@/views/components/PageLayers/form-items'
 import ContractSigningStatus from '@/components/Select/ContractSigningStatus'
+import OrganizationName from '@/components/Select/OrganizationName'
 import pageHandle from '@/mixins/pageHandle'
 
 export default {
   components: {
     FormItems,
     BoxTitle,
-    ContractSigningStatus
+    ContractSigningStatus,
+    OrganizationName
   },
   mixins: [pageHandle],
   model: {
@@ -57,13 +61,14 @@ export default {
   data() {
     return {
       itemsDatas: [
-        { label: '姓名', prop: 'xxx', type: 'input', span: 8, disabled: true },
-        { label: '当前岗位等级', prop: 'b', type: 'input', span: 8, disabled: true },
-        { label: '签订状态', prop: '签订状态', type: 'custom' },
-        { label: '聘期起始日期', prop: 'xxx1', type: 'date', span: 8 },
-        { label: '聘期结束日期', prop: 'xxx2', type: 'date', span: 8 },
-        { label: '是否试用期', prop: 'xxx3', type: 'select', options: [{ value: '0', label: '是' }, { value: '1', label: '否' }], span: 8 },
-        { label: '聘期考核结果', prop: 'xxx4', type: 'select', options: [{ value: '0', label: '合格' }, { value: '1', label: '不合格' }], span: 8 }
+        { label: '单位名称', prop: '单位名称', type: 'custom', slotName: '单位名称', span: 8 },
+        { label: '身份证', prop: 'b', type: 'input', span: 8 },
+        { label: '申请人', prop: '签订状态', type: 'custom' },
+        { label: '主体岗位', prop: 'xxx1', type: 'date', span: 8 },
+        { label: '回避事项', prop: 'xxx2', type: 'date', span: 8 },
+        { label: '回避类型', prop: 'xxx3', type: 'select', span: 8 },
+        { label: '申请时间', prop: 'xxx3', type: 'date', span: 8 },
+        { label: '回避情况', prop: 'xxx4', type: 'textarea', span: 24 }
       ],
 
       dataForm: {},

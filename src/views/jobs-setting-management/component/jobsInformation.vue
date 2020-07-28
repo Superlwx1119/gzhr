@@ -166,7 +166,7 @@
 </template>
 
 <script>
-import { editPostSetup } from '@/api/JobsSettingManagement/index'
+import { editPostSetup, addPostSetup } from '@/api/JobsSettingManagement/index'
 export default {
   components: {
   },
@@ -290,15 +290,25 @@ export default {
     },
     editPostSetup(row) {
       editPostSetup({ aab001: row.aab001, arb211: row.arb211 }).then(res => {
-        console.log(res)
         if (res.code === 0) {
-          this.addForm = res.data
+          this.addForm = res.data.dataMap
         }
       })
     },
+    addPostSetup(row) {
+      addPostSetup({ aab001: 1282 }).then(res => {
+        this.loading = false
+        if (res.code === 0) {
+          this.addForm = res.data.dataMap
+          this.$emit('input', this.addForm)
+        }
+      }).catch(() => {
+        this.loading = false
+      })
+    },
     handleSelectChange(v, type) {
-      // this.addForm[type] = v || 0
-      this.$emit('input', v)
+      this.addForm[type] = v || 0
+      this.$emit('input', this.addForm)
     },
     save(formName) {}
   }

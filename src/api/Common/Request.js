@@ -47,3 +47,36 @@ export function getCodeByTypeCodes(query) {
     params: query
   })
 }
+/**
+ * 流程申报
+ * @param query
+ */
+export function apply(query) {
+  return request({
+    url: api.apply,
+    method: 'post',
+    params: query
+  })
+}
+/**
+ * 流程审核
+ * @param query
+ */
+export function audit(query) {
+  return request({
+    url: api.audit,
+    method: 'post',
+    params: query
+  })
+}
+/**
+ * 启动流程
+ * @param query
+ */
+export function startprocess(query) {
+  return request({
+    url: api.startprocess,
+    method: 'post',
+    params: query
+  })
+}

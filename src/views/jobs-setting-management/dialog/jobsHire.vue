@@ -9,13 +9,13 @@
   >
     <div class="box">
       <div class="box-body">
-        <BaseInformation />
+        <BaseInformation ref="base" @changeArb="changeArb" />
         <div slot="table-title" class="box-header handle">
           <span class="box-title">人员聘用信息</span>
         </div>
         <el-tabs type="border-card">
           <el-tab-pane label="管理岗位聘用表">
-            <ManagementJobsHire />
+            <ManagementJobsHire :arb261="arb261" />
           </el-tab-pane>
           <el-tab-pane label="专技工勤岗位聘用表">
             <ProfessionalJobsHire />
@@ -32,6 +32,7 @@
       <el-button type="primary">保存</el-button>
       <el-button @click="closeDialog">关闭</el-button>
     </span>
+
   </form-dialog>
 </template>
 
@@ -77,17 +78,25 @@ export default {
       activeName: '1',
       queryForm: {},
       isShowAdd: false,
-      loading: false
-
+      loading: false,
+      arb261: null
     }
   },
   methods: {
+    changeArb(v) {
+      this.arb261 = v
+    },
     closeDialog() {
       this.$emit('closeAll', false)
       this.reset()
     },
+    addPostFlow() {
+      setTimeout(() => {
+        this.$refs.base.addPostFlow()
+      }, 100)
+    },
     reset() {
-      this.$refs.addForm.$refs.addForm.resetFields()
+      this.$refs.base.$refs.addForm.resetFields()
     },
     isShow(v) {
       this.$emit('closeAll', false)

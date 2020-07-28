@@ -94,7 +94,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    // this.search()
+    this.search()
   },
   mounted() {
   },
